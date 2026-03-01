@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Core Features</span> <i class="fas fa-chevron-right"></i>
+            <span>Collections</span>
+        </div>
+
+        <h1>Collections & Aggregation</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Collections allow you to group dynamic project documents
+            together to perform aggregated analysis across massive datasets.</p>
+
+        <!-- Placeholder for Collection Screenshot -->
+        <img src="assets/collection_creation.png" alt="Parsifi Create Collection Modal"
+            class="rounded-xl border border-white/10 shadow-lg mx-auto mb-8 max-w-lg bg-[#0f172a]">
+
+        <h2>Creating a Collection</h2>
+        <p>While the Knowledge Base holds static reference materials, <strong>Collections</strong> are actively used to
+            group uploaded documents (like batches of invoices, resumes, or logs) that you want to analyze as a single
+            unit.</p>
+
+        <ol>
+            <li>Go to the <strong>Dashboard</strong> and switch to the "All Documents" or list view.</li>
+            <li>Select multiple completed documents using the left-hand checkboxes.</li>
+            <li>In the Bulk Action bar that appears at the bottom, click the <strong>Add to Collection</strong> button.
+            </li>
+            <li>Name your collection (e.g., "Q3 Financial Invoices").</li>
+        </ol>
+
+        <h2>Map-Reduce Aggregation: How it Works</h2>
+        <p>Often, you need to answer a question that requires reading 50 different documents. Feeding all 50 documents
+            into an LLM at once will crash it due to Context Window limitations. Parsifi solves this using an automated
+            <strong>Map-Reduce Engine</strong>.
+        </p>
+
+        <h3>Step 1: The "Map" Phase (Individual Analysis)</h3>
+        <p>Before aggregating, you must extract the relevant data from <em>each individual document</em>. Run a
+            Workspace Pipeline (e.g., "Extract Invoice Total") on every document in your "Q3 Financial Invoices"
+            collection. Parsifi asks the LLM to process each one independently.</p>
+
+        <h3>Step 2: The "Reduce" Phase (Aggregation)</h3>
+        <p>Once all children are analyzed, navigate to the <strong>Collections</strong> tab on the Dashboard and click
+            your Collection. You can now run a final, overarching prompt against the <em>Collection itself</em>.</p>
+
+        <p>By using the <code>{{children.analysis}}</code> Tag in your Prompt, Parsifi will dynamically grab the short,
+            extracted outputs from Step 1 (the invoice totals) and consolidate them into a single prompt payload for
+            your chosen LLM. Because it's only aggregating the <em>results</em>, it easily fits within the memory
+            limits.</p>
+
+        <h3>Practical Example</h3>
+        <ul>
+            <li><strong>The Question:</strong> What was the total Q3 spend across our 15 vendors?</li>
+            <li><strong>Map Result:</strong> 15 individual, short summaries (e.g., "Vendor A: $1200", "Vendor B: $400").
+            </li>
+            <li><strong>Reduce Prompt:</strong> <em>"Calculate the total sum of these expenses:
+                    {{children.analysis}}"</em></li>
+            <li><strong>Final Result:</strong> <em>"The total Q3 spend was $45,000."</em></li>
+        </ul>
+
+        <div class="callout warning">
+            <i class="fas fa-exclamation-triangle icon"></i>
+            <div>
+                <strong>Use the Right Tag:</strong> Never use <code>{{children.content}}</code> on large collections
+                unless the documents are extremely tiny (like 1-page receipts). Always use
+                <code>{{children.analysis}}</code> to aggregate summarized data and prevent truncation errors.
+            </div>
+        </div>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('collections');
+        });
+    </script>
+</body>
+
+</html>

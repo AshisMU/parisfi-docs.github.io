@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipelines & Workspaces - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>Workspaces</span>
+        </div>
+
+        <h1>Pipelines & Workspaces</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Workspaces allow you to chain multiple automated steps
+            together, passing the output of one step into the input of the next to create complex workflows.</p>
+
+        <img src="assets/workspaces.png" alt="Parsifi Pipelines and Workspaces"
+            class="rounded-xl border border-white/10 shadow-lg mx-auto mb-8 max-w-full bg-[#0f172a]">
+
+        <h2>Chaining Prompts and Tools</h2>
+
+        <img src="assets/create_workspace.png" alt="Parsifi Pipelines and Workspaces"
+            class="rounded-xl border border-white/10 shadow-lg mx-auto mb-8 max-w-2xl bg-[#0f172a]">
+
+        <p>Instead of running a single prompt or a single tool, a Workspace is built out of sequential
+            <strong>Steps</strong>. You build these in the Workspace editor.
+        </p>
+
+        <ul>
+            <li><strong>Auto-Categorize Step:</strong> Instantly tags the document using Taxonomy keywords.</li>
+            <li><strong>Analysis Step:</strong> Runs an LLM prompt against the document text.</li>
+            <li><strong>Agent Tool Step:</strong> Executes a Custom Tool, taking the results and mapping them to an
+                Excel Template.</li>
+        </ul>
+
+        <p>You can drag and drop these steps into any order. When you select a Workspace during a document upload (or
+            from the Dashboard), Parsifi will execute every step automatically.</p>
+
+        <h2>Referencing Previous Steps</h2>
+        <p>The true power of pipelines relies on the chaining tags.</p>
+
+        <p>If Step 1 is named <strong>"Summarize"</strong> (which extracts the `total_amount`), Step 2 does not need to
+            read the entire document again to find that number. Instead, Step 2 can inject the result from Step 1
+            directly into its prompt using the following syntax:</p>
+
+        <pre><code>Previous Output: {{Summarize.output.total_amount}}
+Based on this total amount, calculate the quarterly burn rate.</code></pre>
+
+        <div class="callout warning">
+            <i class="fas fa-exclamation-triangle icon"></i>
+            <div>
+                <strong>Spelling Matters:</strong> When referencing previous outputs, the syntax is strictly
+                <code>{{StepName.output.key}}</code>. Ensure your step name contains no illegal characters if you plan
+                to reference it.
+            </div>
+        </div>
+
+        <h2>Custom Variables</h2>
+        <p>Workspaces support global custom variables. When you create a Workspace, you can define variables like
+            <code>{{target_company}}</code>.
+        </p>
+
+        <p>When you run the Workspace on the Dashboard, a modal will pop up asking for the value of
+            <code>target_company</code>. Parsifi will then inject this manual value into every prompt and every step
+            within the pipeline, allowing you to use a single workspace pipeline for dynamic, on-demand queries.
+        </p>
+
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('workspaces');
+        });
+    </script>
+</body>
+
+</html>

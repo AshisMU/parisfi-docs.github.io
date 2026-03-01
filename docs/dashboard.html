@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard & Uploads - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Core Features</span> <i class="fas fa-chevron-right"></i>
+            <span>Dashboard</span>
+        </div>
+
+        <h1>Dashboard & Document Management</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">The Dashboard is the central hub of Parsifi, where you upload
+            files, organize your work, and monitor analysis jobs in real-time.</p>
+
+        <img src="assets/real_dashboard.png" alt="Parsifi Dashboard Interface">
+
+        <h2>Projects & Virtual Workspaces</h2>
+        <p>Parsifi uses an isolated project system to keep your documents organized. The dropdown in the top-left corner
+            of the sidebar allows you to switch between these isolated containers.</p>
+
+        <ul>
+            <li><strong>Data Separation:</strong> Documents, taxonomy tags, and knowledge base contexts are isolated per
+                project. What happens in "HR Resumes" does not bleed into "Financial Audits."</li>
+            <li><strong>Creating a Project:</strong> Use the "New Project" button in the sidebar to spin up a completely
+                clean workspace environment.</li>
+        </ul>
+
+        <h2>Uploading Documents</h2>
+        <p>Parsifi offers multiple upload workflows tailored for different use cases. You can upload documents directly
+            from the <strong>Home Page</strong> (quick start) or from the <strong>Dashboard Upload Modal</strong>
+            (advanced controls).</p>
+
+        <h3>Processing Pipelines: Standard OCR vs. Vision VLM</h3>
+        <p>When uploading, you must choose how Parsifi "reads" the document:</p>
+
+        <img src="assets/uploadbox.png" alt="Parsifi Upload Options"
+            class="rounded-xl border border-white/10 shadow-lg mx-auto mb-8 max-w-2xl bg-black/40">
+
+        <div class="callout tip">
+            <i class="fas fa-layer-group icon" style="color: #a855f7;"></i>
+            <div>
+                <strong>Merge Documents:</strong> Need to analyze 5 different receipts as a single event? Check this
+                box, and Parsifi will digitally merge all uploaded files into one continuous PDF before running the
+                selected analysis.
+            </div>
+        </div>
+
+        <h3>How Categorization Works</h3>
+        <p>Categories defined in your <a href="taxonomy.html" class="text-blue-400 hover:underline">Taxonomy</a>
+            settings power the <strong>Auto-Categorize</strong> toggle.</p>
+
+        <h3>The Hybrid Categorization Pipeline</h3>
+        <p>When you enable <strong>Auto-Categorize</strong> during upload (or in a Workspace), Parsifi uses a fast,
+            intelligent hybrid approach to sort your documents:</p>
+        <ol>
+            <li><strong>Text Extraction:</strong> The document is scanned via OCR or VLM.</li>
+            <li><strong>Keyword Matching (Primary Net):</strong> Parsifi executes a lightweight, programmatic keyword
+                search across the extracted text based on your <a href="taxonomy.html"
+                    class="text-blue-400 hover:underline">Taxonomy</a> settings. This is lightning-fast and memory
+                efficient.</li>
+            <li><strong>LLM Auto-Categorization (Fallback):</strong> If explicit keywords aren't found or conflict,
+                Parsifi falls back to its intelligent <strong>LLM Categorization pipeline</strong>. It sends the
+                document to the active Language Model alongside your list of categories, allowing the AI to decipher
+                semantic meaning and auto-classify the document dynamically.</li>
+            <li><strong>Tagging:</strong> Once determined, the document is instantly tagged with that category on the
+                Dashboard.</li>
+        </ol>
+
+        <hr class="my-12 border-white/10">
+        <div class="callout info">
+            <i class="fas fa-robot icon"></i>
+            <div>
+                <strong>Standard OCR (Fast):</strong> Extracts plain text using standard parsing libraries. Best for
+                text-heavy documents, code files, and simple PDFs. Very fast and requires minimal VRAM.<br><br>
+                <strong>Vision VLM Processing (Accurate):</strong> Renders every page as an image and uses the
+                multimodal Vision LLM to read it. Best for complex tables, scanned invoices, diagrams, and chaotic
+                layouts. Slower and requires significant VRAM, but yields vastly superior markdown structure.
+            </div>
+        </div>
+
+        <h3>Advanced Upload Options</h3>
+        <ul>
+            <li><strong>Automated Workspaces:</strong> You can select a predefined Workspace Pipeline (e.g., "Invoice
+                Extractor") during upload. Once the document is parsed, Parsifi will automatically queue and run the
+                workspace analysis, skipping manual steps.</li>
+            <li><strong>Split Document Merging:</strong> In professional environments, large documents are often scanned
+                into multiple PDF files (e.g., <code>Report_Part1.pdf</code>, <code>Report_Part2.pdf</code>). Parsifi
+                features a smart merging utility in the upload modal. By dragging multiple files and clicking "Merge",
+                you can stitch them into a single continuous file before processing.</li>
+        </ul>
+
+        <h2>Managing Your Files</h2>
+
+        <h3>Grid vs. List View</h3>
+        <p>Toggle between the visual Grid View and the compact List View using the icons in the dashboard header. Grid
+            View displays a thumbnail preview of the document's first page (generated during VLM processing), making it
+            easy to identify forms at a glance.</p>
+
+        <h3>Status Tracking</h3>
+        <p>Parsifi tracks the real-time status of every document. Common statuses include:</p>
+        <ul>
+            <li><code>Uploading...</code></li>
+            <li><code>Parsing [Page 1/5]</code> (During VLM processing)</li>
+            <li><code>Running Analysis</code></li>
+            <li><code>Completed</code> / <code>Error</code></li>
+        </ul>
+        <p>You can clear completed statuses or cancel running jobs directly from the document card's action menu.</p>
+
+        <h3>Bulk Actions</h3>
+        <p>Select multiple documents using the checkboxes to reveal the Bulk Action bar at the bottom of the screen.
+            From here you can delete multiple files or assign them to a Knowledge Collection simultaneously.</p>
+
+        <img src="assets/docs_crop_bulk_actions.png" alt="Parsifi Bulk Actions Bar"
+            class="my-6 shadow-xl rounded-lg border border-white/10" style="max-width: 500px;">
+
+        <p><strong>Running Ad-Hoc Prompts:</strong> Do you need to run a quick analysis across five different
+            files immediately? Select the files, click <strong>Run Workspace</strong>
+            in the bulk action bar, select a workspace or enter your prompt, and Parsifi will
+            execute it recursively across all selected files.</p>
+
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('dashboard');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction & Settings - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+
+    <!-- Sidebar injected via JS -->
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Getting Started</span>
+        </div>
+
+        <h1>Introduction & Settings</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Welcome to <strong>Parsifi</strong>, a secure, locally-hosted
+            platform designed for advanced document parsing, intelligent analysis, and automated workflows.</p>
+
+        <img src="assets/real_homepage.png" alt="Parsifi Welcome Screen">
+
+        <p>By running entirely on your local machine, Parsifi guarantees absolute data privacy. None of your sensitive
+            documents, financial records, or internal knowledge bases are ever sent to external cloud providers. You
+            have complete digital sovereignty over your data and your AI models.</p>
+
+        <h2>Hardware Considerations & Model Sizing</h2>
+        <p>Because Parsifi runs locally, its performance is directly tied to your computer's hardware—specifically your
+            graphics card's Video RAM (VRAM) and system memory (RAM).</p>
+
+        <div class="callout warning">
+            <i class="fas fa-memory icon"></i>
+            <div>
+                <strong>Golden Rule of Local AI:</strong> Ensure the model weights fit entirely within your GPU's VRAM
+                for hardware acceleration. If a model overflows into system RAM, text generation strings will slow down
+                significantly.
+            </div>
+        </div>
+
+        <h3>LLM (Large Language Model) Sizing</h3>
+        <ul>
+            <li><strong>7B - 9B Parameter Models (e.g., Llama-3 8B, Mistral 7B):</strong> Require ~6GB to 8GB of VRAM
+                (using 4-bit quantization). Excellent for general document summarization, extraction, and acting as
+                standard Agent Tools.</li>
+            <li><strong>14B - 32B Parameter Models:</strong> Require ~12GB to 24GB of VRAM. Best for complex reasoning,
+                multi-document comparison, and strict JSON schema adherence.</li>
+            <li><strong>70B+ Parameter Models:</strong> Require 48GB+ (often multiple GPUs) or a very high-end M-series
+                Mac. Professional grade accuracy.</li>
+        </ul>
+
+        <h3>VLM (Vision Language Model) Sizing</h3>
+        <p>The built-in VLM is used for visual document parsing—specifically understanding images, charts, and complex
+            page layouts without relying on standard text OCR.</p>
+        <ul>
+            <li>By default, Parsifi ships with an optimized, lightweight VLM that balances speed and accuracy, requiring
+                roughly <strong>4GB to 6GB of VRAM</strong>.</li>
+            <li>Processing high-resolution PDFs through the VLM is memory intensive. Ensure you leave adequate VRAM
+                available if you plan to run both a local LLM (via LM Studio) and the VLM simultaneously.</li>
+        </ul>
+
+
+        <h2>Settings & Configuration</h2>
+        <p>Configure Parsifi by navigating to the <strong>Settings</strong> page via the main application sidebar.</p>
+
+        <h3>1. Configuring Local LLMs</h3>
+        <p>Parsifi connects to local LLMs using an OpenAI-compatible API structure. The recommended companion software
+            is <strong>LM Studio</strong>.</p>
+        <ol>
+            <li>Download and launch LM Studio.</li>
+            <li>Download your preferred model (e.g., a 4-bit quantized Llama-3 instruction model).</li>
+            <li>In LM Studio, navigate to the Local Server tab and start the server (typically running on
+                `http://localhost:1234/v1`).</li>
+            <li>In Parsifi's settings, set the <strong>Base URL</strong> to match LM Studio's output and verify the
+                connection.</li>
+        </ol>
+
+        <div class="callout info">
+            <i class="fas fa-info-circle icon"></i>
+            <div>
+                <strong>Local Models Only:</strong> Parsifi intentionally does not support direct integrations with
+                OpenAI, Anthropic, or Google APIs to enforce strict local-only data compliance.
+            </div>
+        </div>
+
+        <h3>2. Advanced Settings</h3>
+        <p>Fine-tune Parsifi's behavior under the "Application Configuration" section:</p>
+
+        <img src="assets/docs_action_settings_1772362530077.png" alt="Parsifi Advanced Configuration Settings">
+
+        <ul>
+            <li><strong>Enable Picture Classification:</strong> When importing documents or processing images, the VLM
+                will attempt to classify the image type (e.g., "Invoice", "Architecture Diagram", "Receipt")
+                automatically, adding taxonomy tags.</li>
+            <li><strong>Picture Description:</strong> When enabled, the VLM generates a detailed textual description of
+                the image content. This is highly recommended for OCR pipelines, as it allows standard LLMs to "read"
+                charts and graphs via the generated description.</li>
+            <li><strong>Default Prompt:</strong> The fallback instructions the AI will use if you do not specify a
+                unique prompt during workspace execution. Example: <em>"You are an expert financial analyst. Summarize
+                    the following document..."</em></li>
+            <li><strong>Custom Prompt:</strong> An override prompt that can be toggled on for specific ad-hoc tasks
+                without changing your Default Prompt.</li>
+            <li><strong>Analysis Optimization:</strong> Adjusts chunking thresholds and the map-reduce behavior. Lower
+                values process in smaller chunks (more accurate, slower), while higher values attempt to process larger
+                chunks (faster, but may exceed context limits).</li>
+        </ul>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('index');
+        });
+    </script>
+</body>
+
+</html>

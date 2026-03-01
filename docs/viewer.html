@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Viewer - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Core Features</span> <i class="fas fa-chevron-right"></i>
+            <span>Document Viewer</span>
+        </div>
+
+        <h1>Document Viewer & Analysis</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">The Document Viewer is heavily tailored for in-depth analysis,
+            featuring a split-pane layout to compare source documents directly with AI-generated outputs.</p>
+
+        <img src="assets/docs_viewer_split_1772362394175.png" alt="Parsifi Document Viewer Interface">
+
+        <h2>The Split View Interface</h2>
+        <p>Clicking on any document in the Dashboard opens the Document Viewer. The screen is vertically split:</p>
+
+        <ul>
+            <li><strong>Left Pane (Source):</strong> Displays the original PDF, Markdown extraction, or Image rendering.
+                Use the tabs at the top to toggle between the raw file and the VLM/OCR parsed text structure.</li>
+            <li><strong>Right Pane (Analysis):</strong> Displays the results of AI prompts, workspace pipelines, and
+                extracted key-value data.</li>
+        </ul>
+
+        <h2>Analysis Execution & Data Extraction</h2>
+
+        <h3>Running Prompts & Workspaces</h3>
+        <p>In the right-hand action bar, you can:</p>
+        <ol>
+            <li>Select an existing System Prompt from your library.</li>
+            <li>Write a Custom Ad-hoc prompt for immediate execution (e.g., "Find all mentions of litigation").</li>
+            <li>Select an entire <strong>Workspace Pipeline</strong> to execute sequentially on the document.</li>
+        </ol>
+
+        <h3>Iterative Refinement (Relook Pass)</h3>
+        <p>For complex extraction tasks, a single pass by the AI might miss subtle details or formatting constraints.
+            You can toggle the <strong>Iterate</strong> switch before running a prompt.</p>
+        <img src="assets/Iterate.png" alt="Parsifi Iterate Toggle"
+            class="rounded-xl border border-white/10 shadow-lg my-4 max-w-sm bg-black/40">
+        <ul>
+            <li>When enabled, Parsifi will take the initial output and perform a secondary "refinement pass" using the
+                tool's configured Refinement Prompt to fix errors or tighten the extraction.</li>
+            <li>This takes slightly longer but ensures the highest possible data accuracy.</li>
+        </ul>
+
+        <div class="callout tip">
+            <i class="fas fa-lightbulb icon" style="color: #fbbf24;"></i>
+            <div>
+                <strong>Context Injection:</strong> You can select files from your Knowledge Base directly within the
+                viewer to inject background information into the prompt you are about to run.
+            </div>
+        </div>
+
+        <h3>Targeted Content & Smart Chunking</h3>
+        <p>Sometimes parsing a 1,000-page PDF entirely is unnecessary. You can use <strong>Targeted Content
+                Extraction</strong> to filter what the AI reads.</p>
+        <ul>
+            <li><strong>Manual Targeting:</strong> Highlight a section of the parsed markdown that contains the
+                information you need, click "Target Selection", and run your analysis. The AI will only "see" your
+                highlighted text, saving immense time and tokens.</li>
+            <li><strong>Smart Keyword Chunking:</strong> Enter a list of keywords (e.g., "Indemnity, Liability, Force
+                Majeure"). Parsifi will scan the document, extract only the sections surrounding those keywords, and
+                feed the condensed result into the AI prompt.<br>
+                <img src="assets/smart_chunking.png" alt="Parsifi Smart Keyword Chunking"
+                    class="rounded-xl border border-white/10 shadow-lg max-w-full bg-black/40">
+            </li>
+        </ul>
+
+        <h2>Image Processing Controls</h2>
+        <p>If you uploaded a document using the <strong>Vision VLM</strong> pipeline, you gain access to powerful Image
+            Processing tools on the left pane. These tools modify the image <em>before</em> it is repeatedly requested
+            by the VLM for analysis.</p>
+
+        <img src="assets/image_processing.png" alt="Parsifi Image Processing Toolbar"
+            class="rounded-xl border border-white/10 shadow-lg mx-auto mb-8 max-w-2xl bg-black/40">
+
+        <ul>
+            <li><i class="fas fa-eraser text-pink-400"></i> <strong>Eraser Tool:</strong> Draw over sensitive
+                information (like SSNs or signatures) to permanently blank them out before AI processing. <em>Provides
+                    an extra layer of privacy.</em></li>
+            <li><i class="fas fa-sync text-blue-400"></i> <strong>Deskew:</strong> Automatically straighten crooked
+                scans to improve VLM reading accuracy.</li>
+            <li><i class="fas fa-adjust text-green-400"></i> <strong>Binarize / Contrast:</strong> Convert faded,
+                low-quality receipt scans into high-contrast black and white images, dramatically improving text
+                recognition.</li>
+            <li><i class="fas fa-crop text-amber-400"></i> <strong>Crop:</strong> Manually crop out the margins or
+                irrelevant headers of a document to focus the AI on the core tabular data.</li>
+        </ul>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('viewer');
+        });
+    </script>
+</body>
+
+</html>

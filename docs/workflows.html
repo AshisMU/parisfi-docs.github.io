@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Workflows - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Best Practices</span> <i class="fas fa-chevron-right"></i>
+            <span>Professional Workflows</span>
+        </div>
+
+        <h1>Professional Workflows & Best Practices</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Learn how to combine Parsifi's distinct features into
+            powerful, end-to-end automated pipelines for common professional scenarios.</p>
+
+        <h2>Use Case 1: Automated Invoice Processing</h2>
+        <p><strong>Goal:</strong> Extract vendor names, line items, and totals from scanned invoices, outputting them
+            into a standardized Excel sheet without manual intervention.</p>
+
+        <ol>
+            <li><strong>Setup Taxonomy:</strong> Create an "Invoice" category with the keyword "Total Amount Due".</li>
+            <li><strong>Create Tool:</strong> Build an Agent Tool named "Extract Invoice Data". Write a prompt
+                emphasizing <em>JSON Intent</em> (e.g., extract `VendorName` and `Total`). Upload an Excel template that
+                maps `{{VendorName}}` to cell A1.</li>
+            <li><strong>Build Workspace:</strong> Create a Workspace named "Invoice Pipeline".
+                <ul>
+                    <li>Step 1: Auto-Categorize</li>
+                    <li>Step 2 (Conditional): Run Tool "Extract Invoice Data" <em>only if</em> category is "Invoice".
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Execution:</strong> On the Dashboard, drag 50 scanned PDFs into the upload modal, select "Vision
+                VLM Processing" (since they are scans), and select the "Invoice Pipeline" workspace. Press Start.</li>
+            <li><strong>Result:</strong> Parsifi will parse all 50 images, verify which ones are invoices, extract the
+                data, and generate 50 identical Excel sheets ready for download.</li>
+        </ol>
+
+        <h2>Use Case 2: Resume Screening & Candidate Comparison</h2>
+        <p><strong>Goal:</strong> Summarize 100 applicant resumes and aggregate the best candidates for a specific job
+            description.</p>
+
+        <ol>
+            <li><strong>Upload Context:</strong> Go to the Knowledge Base. Upload the official "Data Scientist Job
+                Description.txt".</li>
+            <li><strong>Setup Prompt:</strong> Write a prompt:
+                <code>Review this resume. Compare it strictly to the attached Job Description. Score the candidate out of 10.</code>
+                Include the <code>{{context}}</code> tag.
+            </li>
+            <li><strong>Execute:</strong> Go to Dashboard. Upload all 100 PDF resumes using standard OCR (since text is
+                easily readable). Select all 100 documents. Click <strong>Run Workspace</strong> from the bulk action
+                bar, select your prompt, and select the Job
+                Description from the Context Dropdown.</li>
+            <li><strong>Aggregate:</strong> Once done, add the top 10 candidates to a Collection named "Top Candidates".
+                Run a final Workspace command on the Collection using the <code>{{children.analysis}}</code> tag:
+                <code>"Summarize the pros and cons of these top 10 candidates into a single executive summary."</code>
+            </li>
+        </ol>
+
+
+        <h2>Use Case 3: Contract Variance Analysis</h2>
+        <p><strong>Goal:</strong> Detect clauses in a 200-page vendor contract that violate your company's standard
+            policy.</p>
+
+        <ol>
+            <li><strong>Upload Policy:</strong> Upload your company's "Vendor Policy Guidelines" to the Knowledge Base.
+            </li>
+            <li><strong>Smart Chunking:</strong> Upload the 200-page contract using standard OCR. Opening it in the
+                split-viewer, enter keywords in the Smart Chunking bar:
+                <code>liability, indemnification, warranty</code>.
+            </li>
+            <li><strong>Execute:</strong> Parsifi will slice the 200-page contract down to only the relevant pages. Run
+                your "Find Policy Violations" prompt using the Vendor Policy as Context. The result is instant and
+                highly accurate because the LLM wasn't distracted by 180 pages of definitions.</li>
+        </ol>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('workflows');
+        });
+    </script>
+</body>
+
+</html>

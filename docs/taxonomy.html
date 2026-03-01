@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxonomy - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Core Features</span> <i class="fas fa-chevron-right"></i>
+            <span>Taxonomy</span>
+        </div>
+
+        <h1>Taxonomy</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Taxonomy enables Parsifi to automatically sort, route, and
+            categorize your documents without manual intervention.</p>
+
+        <img src="assets/docs_taxonomy_1772362342682.png" alt="Parsifi Taxonomy Interface">
+
+        <h2>Defining Document Categories</h2>
+        <p>In the Taxonomy settings, you can define specific Document Categories relevant to your workspace (e.g.,
+            "Invoices", "Resumes", "Legal Contracts").</p>
+
+        <h3>Associating Keywords</h3>
+        <p>For each category, you assign a list of trigger keywords. For example, the "Invoice" category might have
+            keywords: <code>bil, invoice, due date, total amount, remit to</code>.</p>
+
+        <p>Parsifi uses a 4-step <strong>Hybrid Categorization Pipeline</strong> (Primary Keyword Net -> LLM Semantic
+            Fallback) to classify documents based on these settings. You can read more about how this pipeline executes
+            during document ingestion in the <a href="dashboard.html" class="text-blue-400 hover:underline">Dashboard &
+                Uploads</a> guide.</p>
+
+        <div class="callout info">
+            <i class="fas fa-project-diagram icon"></i>
+            <div>
+                <strong>Conditional Routing (Advanced):</strong> Categorization is the foundation for conditional
+                routing in complex Workspaces. For instance, you can configure a Workspace to only run the "Extract
+                Legal Clauses" prompt if the document was auto-classified as a "Legal Contract."
+            </div>
+        </div>
+
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('taxonomy');
+        });
+    </script>
+</body>
+
+</html>

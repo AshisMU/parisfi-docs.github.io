@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Tool Factory - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>Agent Tool Factory</span>
+        </div>
+
+        <h1>Agent Tool Factory</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">The Tool Factory upgrades standard prompts into persistent,
+            actionable Tools that can generate physical files (Excel, Word, CSV) based on document data.</p>
+
+        <img src="assets/real_tools.png" alt="Parsifi Agent Tool Factory">
+
+        <h2>Anatomy of a Custom Tool</h2>
+        <p>A Tool bundles three components together:</p>
+        <ol>
+            <li><strong>System Instructions:</strong> What the AI needs to extract.</li>
+            <li><strong>Output Template (Optional):</strong> The physical Excel (.xlsx) or Word (.docx) file it will map
+                the extracted data into.</li>
+            <li><strong>Context Requirements:</strong> Whether the tool requires run-time comparison documents (e.g., a
+                "Contract Variance" tool might require the user to attach a standard Company Policy document every time
+                it runs).</li>
+        </ol>
+
+        <h2>Enforcing Structure: JSON Intent</h2>
+        <p>For an Agent Tool to reliably populate an Excel spreadsheet, the AI <em>must</em> output a clean JSON
+            structure, not messy text. To do this, you must construct the prompt with explicit **JSON Intent**.</p>
+
+        <img src="assets/docs_crop_json_intent.png" alt="Parsifi JSON Intent tool"
+            class="my-6 shadow-xl rounded-lg border border-white/10" style="max-width: 550px;">
+
+        <p><strong>Good Practice:</strong></p>
+        <pre><code>IMPORTANT: Provide actual numerical values from the document in a structured JSON format. 
+Do not use placeholders. If data is missing, state 'Not Found'. 
+
+Example expected output:
+{
+  "InvoiceTotal": "1500.00",
+  "VendorName": "Acme Corp"
+}</code></pre>
+
+        <div class="callout tip">
+            <i class="fas fa-magic icon" style="color: #60a5fa;"></i>
+            <div>
+                <strong>JSON Helper Button:</strong> The Tool Factory editor includes a "JSON Output" button that
+                automatically injects the exact verbiage required to force the LLM into strict JSON mode.
+            </div>
+        </div>
+
+        <h2>Uploading and Mapping Templates</h2>
+        <p>To have Parsifi generate downloadable files for you:</p>
+        <ol>
+            <li>Navigate to the <strong>Templates</strong> tab in the Tool Factory.</li>
+            <li>Upload a blank Excel (.xlsx) or Word (.docx) file.</li>
+            <li>In your uploaded Template file, wrap your target cells or text in double braces. Example: Type
+                <code>{{InvoiceTotal}}</code> in cell B2.
+            </li>
+            <li>In your Tool Prompt, ensure the AI is instructed to output a JSON key named exactly
+                <code>"InvoiceTotal"</code>.
+            </li>
+        </ol>
+
+        <p>When the Tool is run against a document, Parsifi extracts the JSON, maps <code>InvoiceTotal</code> to cell
+            B2, and provides the finished Excel file for download directly on the Dashboard.</p>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('tools');
+        });
+    </script>
+</body>
+
+</html>

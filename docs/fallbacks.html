@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Fallbacks - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>System Fallbacks</span>
+        </div>
+
+        <h1>System Fallbacks</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Learn about the built-in system fallbacks designed to ensure
+            continuous operation and seamless error handling across Parsifi.</p>
+
+        <h2>1. Prompts with Fallbacks</h2>
+
+        <h3>The "Default" Prompt</h3>
+        <p>This prompt serves as the ultimate fallback set of AI instructions
+            (<code>"You are an expert document analyst..."</code>).</p>
+        <p>If a user provides an invalid prompt key or doesn't specify one, the system falls back to this default set of
+            instructions to ensure an analysis is still generated.</p>
+
+        <h3>Prompt Recommendations UI</h3>
+        <p>The frontend uses a fallback hierarchy when suggesting prompts to the user. If a document-specific prompt key
+            isn't available, it falls back to category-based recommendations. As a final resort, it defaults to the
+            first available prompt or the <strong>Default</strong> prompt.</p>
+
+        <h2>2. Artifacts & Core System Components</h2>
+
+        <h3>Document Chunking & Splitting</h3>
+        <p>The system actively attempts to use hierarchical chunking based on document structure (e.g., structural JSON
+            outputs). If no structural layout is found or the hierarchical chunking fails, the system safely triggers a
+            <strong>fallback split method</strong> using standard text-length chunking.</p>
+
+        <h3>LLM Output Parsing</h3>
+        <p>If the LLM Agent exhausts all retry attempts while trying to parse valid structured outputs, the system
+            avoids crashing by triggering a fallback. It purposely returns a <strong>valid, basic JSON format</strong>
+            to prevent an "Agent Parse Error" and ensure the pipeline continues running smoothly.</p>
+
+        <h3>Taxonomy Loading</h3>
+        <p>When initializing, the service attempts to load a taxonomy map from <code>taxonomy.json</code>. If this file
+            fails to load or is unreadable, it implements a fallback by using a hardcoded, default taxonomy dictionary.
+        </p>
+
+        <h3>Token Counting for Processing</h3>
+        <p>The processing pipeline computes chunk limits using the <code>tiktoken</code> tokenizer. If the tokenizer
+            fails to load or calculate length properly, it includes a fallback mechanism to use standard
+            <strong>character counting</strong> instead.</p>
+
+        <h3>Pydantic Data Validation</h3>
+        <p>Includes a specific error validation fallback to handle formatting anomalies—for instance, if the
+            <code>pages</code> configuration is mistakenly parsed as a list, the system catches it and corrects it on
+            the fly.</p>
+
+        <h3>Workspace/Collection Data Structures</h3>
+        <p>The dashboard logic includes a data fallback to seamlessly support both legacy array formats and the newer
+            object structures. This ensures backward compatibility for older workspaces without breaking the UI.</p>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('fallbacks');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Core Features</span> <i class="fas fa-chevron-right"></i>
+            <span>Knowledge Base</span>
+        </div>
+
+        <h1>Knowledge Base Reference Files</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">The Knowledge Base allows you to upload persistent reference
+            materials to give your AI necessary background context.</p>
+
+        <img src="assets/real_collections.png" alt="Parsifi Knowledge Base Context"
+            onerror="this.src='https://placehold.co/800x400/1e1e24/495057?text=Knowledge+Base'">
+
+        <h2>Uploading Reference Materials</h2>
+        <p>Your Knowledge Base is a persistent vector store of reference files (PDFs, Text, Markdown). These files are
+            not analyzed in isolation; instead, they serve as "textbooks" that the AI consults when processing other
+            dynamic documents.</p>
+
+        <p><strong>Example Use Case:</strong> Upload a 50-page <em>Vendor Compliance Manual</em> to your Knowledge Base.
+            When analyzing a newly uploaded vendor contract (from your Dashboard), you can inject the manual as Context.
+            The AI will instantly cross-reference the active contract against the rules defined in your persistent
+            manual.</p>
+
+        <div class="callout warning">
+            <i class="fas fa-database icon"></i>
+            <div>
+                <strong>Context Length Limits:</strong> Injecting too many large Knowledge Base files as context into a
+                single prompt may exceed your local LLM's Context Window (e.g., 8,000 tokens), causing it to crash or
+                truncate text. If you have a massive Knowledge Base, use the Semantic Search or Keyword tools to narrow
+                down the injection.
+            </div>
+        </div>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('knowledge');
+        });
+    </script>
+</body>
+
+</html>

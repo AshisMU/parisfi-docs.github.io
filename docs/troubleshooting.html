@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Best Practices</span> <i class="fas fa-chevron-right"></i>
+            <span>Troubleshooting</span>
+        </div>
+
+        <h1>Troubleshooting & Tuning</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Running robust AI infrastructure locally requires balancing
+            speed against Context Limits.</p>
+
+        <h2>Understanding Map-Reduce & Token Limits</h2>
+        <p>Every Local LLM has a "Context Window" (e.g., Llama-3 often defaults to 8,192 tokens). If you feed a 500-page
+            document into the AI all at once, the context window will overflow, causing the AI to hallucinate or return
+            an error.</p>
+
+        <p>To safely process massive documents, Parsifi utilizes an automated <strong>Map-Reduce Engine</strong>.</p>
+
+        <ul>
+            <li><strong>The Trigger:</strong> If a document's token count exceeds the threshold in settings, Map-Reduce
+                activates automatically.</li>
+            <li><strong>Map Phase:</strong> Parsifi chunks the document (e.g., 2,000 tokens per chunk) and asks the LLM
+                the same prompt for <em>every</em> chunk individually.</li>
+            <li><strong>Reduce Phase:</strong> Parsifi takes all the individual answers and submits a final prompt to
+                the LLM to aggregate them into one cohesive response.</li>
+        </ul>
+
+        <div class="callout warning">
+            <i class="fas fa-cogs icon"></i>
+            <div>
+                <strong>The Cost of Map-Reduce:</strong> While it guarantees the entire document is read, Map-Reduce is
+                significantly slower because the LLM must process the prompt 10x or 20x more times than a single-pass
+                document. Use <strong>Targeted Content Extraction</strong> (Smart Chunking keywords) to avoid Map-Reduce
+                when speed is paramount.
+            </div>
+        </div>
+
+        <h2>Truncation Warnings</h2>
+        <p>If you use Collection Tags (e.g., <code>{{children.content}}</code>) to combine 50 different documents into a
+            single prompt, Parsifi will attempt to prevent your LLM from crashing by implementing a hard-stop limit
+            (100,000 characters). If you see a warning that your text was <strong>TRUNCATED</strong>:</p>
+        <ol>
+            <li>Stop using the raw `{{children.content}}` tag.</li>
+            <li>Use the `{{children.analysis}}` tag instead. By summarizing the children <em>first</em> and then
+                accumulating the summaries, you compress 100,000 characters down into 5,000 highly potent characters
+                that fit effortlessly in the context window.</li>
+        </ol>
+
+
+        <h2>Local vs "Cloud" Speeds</h2>
+        <p>If Parsifi feels slow, it is strictly a limitation of the Local LLM running on your computer's hardware. You
+            cannot compare the generation speed of an 8B model running on a consumer GPU to GPT-4 running on thousands
+            of enterprise H100 arrays.</p>
+
+        <p><strong>To Improve Local Speed:</strong></p>
+        <ul>
+            <li>Switch to a smaller model in LM Studio (e.g., Qwen 1.5B or standard Llama 8B).</li>
+            <li>Lower the quantization level (e.g., Q4_K_M instead of Q8_0) to save VRAM and improve memory bandwidth
+                speeds.</li>
+            <li>Offload 100% of layers to GPU inside LM Studio. If your model spills over into CPU RAM, generation speed
+                drops from 40 tokens/sec to 2 tokens/sec.</li>
+        </ul>
+
+        <h2>Document Failed to Process</h2>
+        <p>If a document throws an error during the VLM parsing stage:</p>
+        <ol>
+            <li>Rethink the pipeline: Does this document <em>need</em> the vision model? Can you just extract text via
+                Standard OCR?</li>
+            <li>If the document is a massive PDF (1,000+ pages), the VLM will take hours to process locally. Try
+                splitting the PDF before uploading.</li>
+        </ol>
+
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('troubleshooting');
+        });
+    </script>
+</body>
+
+</html>

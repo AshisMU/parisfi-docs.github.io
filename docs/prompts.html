@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Library - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>Prompt Library</span>
+        </div>
+
+        <h1>Prompt Library</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">The Prompt Library allows you to build, manage, and refine
+            system instructions that guide your LLM through complex analysis tasks.</p>
+
+        <img src="assets/docs_prompts_1772362355666.png" alt="Parsifi Prompt Library Interface">
+
+        <h2>Creating Reusable Prompts</h2>
+        <p>Instead of typing the same instructions repeatedly in the Document Viewer, you can save them in the Prompt
+            Library. A good prompt is highly specific:</p>
+        <pre><code>You are an expert commercial real estate lawyer. 
+Review the following lease agreement and extract the Tenant Name, Monthly Rent, and Expiration Date.</code></pre>
+
+        <h3>AI Prompt Generation</h3>
+        <p>If you have an idea but aren't sure how to phrase it, use the <strong>Generate via AI</strong> button in the
+            prompt editor. Type a brief description (e.g., "Find all risky clauses"), and Parsifi's AI will write a
+            highly optimized, structured prompt for you.</p>
+
+        <h2>Few-Shot Examples</h2>
+        <p>The most effective way to improve an LLM's accuracy is through "Few-Shot Prompting." In the Prompt Library,
+            you can explicitly add Input/Output pairs to train the AI on the exact format you expect.</p>
+
+        <ul>
+            <li><strong>Input:</strong> <code>The lease commences on January 1, 2024, and ends 60 months later.</code>
+            </li>
+            <li><strong>Output:</strong>
+                <code>{"commencement_date": "2024-01-01", "expiration_date": "2028-12-31"}</code>
+            </li>
+        </ul>
+        <p>Adding just two or three examples dramatically reduces AI hallucinations.</p>
+
+        <h2>The Tag System</h2>
+        <p>Parsifi uses a dynamic templating engine (Jinja-style tags) to inject context directly into your prompts at
+            runtime. You do not need to manually paste the document text into the prompt box.</p>
+
+        <img src="assets/docs_crop_jinja_tags.png" alt="Parsifi Jinja Tags helper"
+            class="my-6 shadow-xl rounded-lg border border-white/10" style="max-width: 384px;">
+
+        <p>Important System Tags:</p>
+        <ul>
+            <li><code>{{document.content}}</code>: Injects the raw extracted markdown of the currently active document.
+            </li>
+            <li><code>{{context}}</code>: Injects any external reference files you selected from the Knowledge Base.
+            </li>
+            <li><code>{{children.analysis}}</code>: Used strictly when running a prompt on a
+                <strong>Collection</strong>. It gathers the analysis results of every single child document and pastes
+                them into the prompt for aggregation.
+            </li>
+        </ul>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('prompts');
+        });
+    </script>
+</body>
+
+</html>
