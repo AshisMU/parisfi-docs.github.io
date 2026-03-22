@@ -26,32 +26,203 @@
 
         <h1>Tutorials</h1>
 
-        <p class="text-xl text-gray-300 font-medium mb-8">Follow these step-by-step guides to master Parsifi, from basic document analysis to complex multi-stage orchestration pipelines.</p>
+        <style>
+            /* Premium Tutorials Grid Styles */
+            .tutorials-header {
+                font-size: 1.15rem;
+                color: #94a3b8;
+                max-width: 800px;
+                line-height: 1.6;
+                margin-bottom: 3rem;
+            }
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            .tutorial-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+                align-items: stretch;
+            }
+
+            .category-card {
+                background: rgba(30, 41, 59, 0.4);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                border-radius: 1.25rem;
+                padding: 2rem;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .category-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: var(--card-gradient, linear-gradient(90deg, #3b82f6, #8b5cf6));
+                opacity: 0.8;
+                transition: opacity 0.3s;
+            }
+
+            .category-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+                border-color: rgba(255, 255, 255, 0.15);
+            }
+
+            .category-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .category-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.05);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                color: var(--icon-color, #e2e8f0);
+                box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05);
+            }
+
+            .category-title {
+                margin: 0 !important;
+                font-size: 1.5rem !important;
+                border: none !important;
+                padding: 0 !important;
+                color: #f8fafc !important;
+                font-weight: 700 !important;
+                letter-spacing: -0.025em;
+            }
+
+            .tutorial-list {
+                list-style: none;
+                padding: 0 !important;
+                margin: 0 !important;
+                display: flex;
+                flex-direction: column;
+                gap: 1.25rem;
+                flex-grow: 1;
+            }
+
+            .tutorial-item a {
+                display: flex;
+                gap: 1rem;
+                text-decoration: none;
+                padding: 1rem;
+                border-radius: 0.75rem;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid transparent;
+                transition: all 0.2s ease;
+            }
+
+            .tutorial-item a:hover {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: rgba(255, 255, 255, 0.1);
+                transform: translateX(4px);
+            }
+
+            .tutorial-number {
+                font-family: 'Consolas', 'Monaco', monospace;
+                font-size: 0.875rem;
+                font-weight: 700;
+                color: var(--icon-color, #94a3b8);
+                background: rgba(0, 0, 0, 0.3);
+                padding: 0.25rem 0.6rem;
+                border-radius: 0.5rem;
+                height: fit-content;
+                margin-top: 0.125rem;
+            }
+
+            .tutorial-content {
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+
+            .tutorial-name {
+                color: #e2e8f0;
+                font-weight: 600;
+                font-size: 1.05rem;
+                line-height: 1.4;
+            }
+
+            .tutorial-desc {
+                color: #94a3b8;
+                font-size: 0.875rem;
+                line-height: 1.5;
+            }
+
+            .badge {
+                font-size: 0.65rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-weight: 700;
+                padding: 0.2rem 0.5rem;
+                border-radius: 1rem;
+                margin-left: 0.5rem;
+                vertical-align: middle;
+            }
+            
+            .badge-new {
+                background: rgba(16, 185, 129, 0.15);
+                color: #34d399;
+                border: 1px solid rgba(52, 211, 153, 0.3);
+            }
+
+            .badge-advanced {
+                background: rgba(139, 92, 246, 0.15);
+                color: #c4b5fd;
+                border: 1px solid rgba(139, 92, 246, 0.3);
+            }
+
+            /* Thematic Variables */
+            .theme-basics { --card-gradient: linear-gradient(135deg, #3b82f6, #0ea5e9); --icon-color: #38bdf8; }
+            .theme-templates { --card-gradient: linear-gradient(135deg, #10b981, #14b8a6); --icon-color: #34d399; }
+            .theme-workspaces { --card-gradient: linear-gradient(135deg, #f59e0b, #eab308); --icon-color: #fbbf24; }
+            .theme-orchestration { --card-gradient: linear-gradient(135deg, #8b5cf6, #d946ef); --icon-color: #c084fc; }
+
+            @media (max-width: 768px) {
+                .tutorial-grid { grid-template-columns: 1fr; }
+            }
+        </style>
+
+        <p class="tutorials-header">Follow these step-by-step guides to master Parsifi, from basic document analysis to complex multi-stage orchestration pipelines. Select a tutorial below to get started.</p>
+
+        <div class="tutorial-grid">
             
             <!-- Basics -->
-            <div class="bg-gray-900/40 border border-gray-700/50 rounded-xl p-6 transition hover:border-blue-500/50">
-                <div class="flex items-center gap-3 mb-4 text-blue-400">
-                    <i class="fas fa-book-open text-2xl"></i>
-                    <h2 class="text-xl m-0 border-0 pb-0">The Basics</h2>
+            <div class="category-card theme-basics">
+                <div class="category-header">
+                    <div class="category-icon"><i class="fas fa-book-open"></i></div>
+                    <h2 class="category-title">The Basics</h2>
                 </div>
-                <ul class="space-y-3">
-                    <li>
-                        <a href="tutorials/01-first-analysis.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-blue-500 font-mono mt-1">01</span>
-                            <div>
-                                <span class="block font-medium">Your First Document Analysis</span>
-                                <span class="text-sm text-gray-400">Upload a PDF, run OCR, and extract data using a simple text prompt.</span>
+                <ul class="tutorial-list">
+                    <li class="tutorial-item">
+                        <a href="tutorials/01-first-analysis.html">
+                            <span class="tutorial-number">01</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Your First Document Analysis</span>
+                                <span class="tutorial-desc">Upload a PDF, run OCR, and extract data using a simple text prompt.</span>
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="tutorials/02-agent-tool-json.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-blue-500 font-mono mt-1">02</span>
-                            <div>
-                                <span class="block font-medium">Building Strict JSON Tools</span>
-                                <span class="text-sm text-gray-400">Create an Agent Tool that guarantees the LLM returns data conforming to a JSON Schema.</span>
+                    <li class="tutorial-item">
+                        <a href="tutorials/02-agent-tool-json.html">
+                            <span class="tutorial-number">02</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Building Strict JSON Tools</span>
+                                <span class="tutorial-desc">Create an Agent Tool that guarantees the LLM returns data conforming to a specific JSON Schema.</span>
                             </div>
                         </a>
                     </li>
@@ -59,27 +230,27 @@
             </div>
 
             <!-- Templates -->
-            <div class="bg-gray-900/40 border border-gray-700/50 rounded-xl p-6 transition hover:border-teal-500/50">
-                <div class="flex items-center gap-3 mb-4 text-teal-400">
-                    <i class="fas fa-file-invoice text-2xl"></i>
-                    <h2 class="text-xl m-0 border-0 pb-0">Template Fill</h2>
+            <div class="category-card theme-templates">
+                <div class="category-header">
+                    <div class="category-icon"><i class="fas fa-file-invoice"></i></div>
+                    <h2 class="category-title">Template Fill</h2>
                 </div>
-                <ul class="space-y-3">
-                    <li>
-                        <a href="tutorials/03-template-fill-docx.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-teal-500 font-mono mt-1">03</span>
-                            <div>
-                                <span class="block font-medium">Word (DOCX) Templates</span>
-                                <span class="text-sm text-gray-400">Map extracted data into a Word document containing {{placeholders}}.</span>
+                <ul class="tutorial-list">
+                    <li class="tutorial-item">
+                        <a href="tutorials/03-template-fill-docx.html">
+                            <span class="tutorial-number">03</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Word (DOCX) Templates</span>
+                                <span class="tutorial-desc">Map extracted data perfectly into a Microsoft Word document containing {{placeholders}}.</span>
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="tutorials/04-template-fill-pdf.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-teal-500 font-mono mt-1">04</span>
-                            <div>
-                                <span class="block font-medium">AcroForm PDF Templates</span>
-                                <span class="text-sm text-gray-400">Fill standard PDF forms using exact field name matching and checkbox handling.</span>
+                    <li class="tutorial-item">
+                        <a href="tutorials/04-template-fill-pdf.html">
+                            <span class="tutorial-number">04</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">AcroForm PDF Templates</span>
+                                <span class="tutorial-desc">Fill standard PDF forms automatically using exact field name matching and intelligent checkbox handling.</span>
                             </div>
                         </a>
                     </li>
@@ -87,27 +258,27 @@
             </div>
 
             <!-- Workspaces -->
-            <div class="bg-gray-900/40 border border-gray-700/50 rounded-xl p-6 transition hover:border-amber-500/50">
-                <div class="flex items-center gap-3 mb-4 text-amber-400">
-                    <i class="fas fa-layer-group text-2xl"></i>
-                    <h2 class="text-xl m-0 border-0 pb-0">Workspaces (Linear)</h2>
+            <div class="category-card theme-workspaces">
+                <div class="category-header">
+                    <div class="category-icon"><i class="fas fa-layer-group"></i></div>
+                    <h2 class="category-title">Workspaces</h2>
                 </div>
-                <ul class="space-y-3">
-                    <li>
-                        <a href="tutorials/05-workspace-pipeline.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-amber-500 font-mono mt-1">05</span>
-                            <div>
-                                <span class="block font-medium">Multi-Step Workspace Pipeline</span>
-                                <span class="text-sm text-gray-400">Chain tools together: Auto-categorize → Extract Data → Branch based on rules.</span>
+                <ul class="tutorial-list">
+                    <li class="tutorial-item">
+                        <a href="tutorials/05-workspace-pipeline.html">
+                            <span class="tutorial-number">05</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Multi-Step Workspace Pipeline</span>
+                                <span class="tutorial-desc">Chain tools together: Auto-categorize &rarr; Extract Data &rarr; Branch based on conditional rules.</span>
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="tutorials/06-repeat-loops.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-amber-500 font-mono mt-1">06</span>
-                            <div>
-                                <span class="block font-medium">Repeat Loops over Arrays</span>
-                                <span class="text-sm text-gray-400">Extract a list of items (e.g. line items), and run a tool individually on each one.</span>
+                    <li class="tutorial-item">
+                        <a href="tutorials/06-repeat-loops.html">
+                            <span class="tutorial-number">06</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Repeat Loops over Arrays</span>
+                                <span class="tutorial-desc">Extract a list of items (e.g. invoice line items), and run a targeted tool individually on each array element.</span>
                             </div>
                         </a>
                     </li>
@@ -115,54 +286,54 @@
             </div>
 
             <!-- Orchestration -->
-            <div class="bg-gray-900/40 border border-gray-700/50 rounded-xl p-6 transition hover:border-indigo-500/50">
-                <div class="flex items-center gap-3 mb-4 text-indigo-400">
-                    <i class="fas fa-network-wired text-2xl"></i>
-                    <h2 class="text-xl m-0 border-0 pb-0">Orchestration (DAGs)</h2>
+            <div class="category-card theme-orchestration">
+                <div class="category-header">
+                    <div class="category-icon"><i class="fas fa-network-wired"></i></div>
+                    <h2 class="category-title">Orchestration DAGs</h2>
                 </div>
-                <ul class="space-y-3">
-                    <li>
-                        <a href="tutorials/07-review-gate.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-indigo-500 font-mono mt-1">07</span>
-                            <div>
-                                <span class="block font-medium">Human-in-the-Loop Review Gates</span>
-                                <span class="text-sm text-gray-400">Pause a pipeline, prompt a human to verify extracted data, and resume execution.</span>
+                <ul class="tutorial-list">
+                    <li class="tutorial-item">
+                        <a href="tutorials/07-review-gate.html">
+                            <span class="tutorial-number">07</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Human-in-the-Loop Review Gates</span>
+                                <span class="tutorial-desc">Pause a pipeline, prompt a human to verify extracted data, and resume graph execution.</span>
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="tutorials/08-multi-node.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-indigo-500 font-mono mt-1">08</span>
-                            <div>
-                                <span class="block font-medium">Multi-Input Pipelines</span>
-                                <span class="text-sm text-gray-400">Build a graph that waits for 3 different documents before generating a consolidated report.</span>
+                    <li class="tutorial-item">
+                        <a href="tutorials/08-multi-node.html">
+                            <span class="tutorial-number">08</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Multi-Input Pipelines</span>
+                                <span class="tutorial-desc">Build an advanced graph that waits for 3 different documents before generating a consolidated report.</span>
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="tutorials/09-variable-register.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-indigo-500 font-mono mt-1">09</span>
-                            <div>
-                                <span class="block font-medium">Mastering the Variable Register</span>
-                                <span class="text-sm text-gray-400">Trace data lineage and debug missing variables in complex graphs.</span>
+                    <li class="tutorial-item">
+                        <a href="tutorials/09-variable-register.html">
+                            <span class="tutorial-number">09</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Mastering the Variable Register</span>
+                                <span class="tutorial-desc">Trace data lineage and debug missing variables seamlessly across highly complex execution graphs.</span>
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="tutorials/10-data-lineage-map.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-teal-400 font-mono mt-1">10</span>
-                            <div>
-                                <span class="block font-medium">Using the Data Lineage Map <span style="font-size:0.65em; background:rgba(20,184,166,0.15); color:#5eead4; border-radius:20px; padding:1px 7px; vertical-align:middle;">New</span></span>
-                                <span class="text-sm text-gray-400">Toggle the visual overlay to verify which variables are mapped, missing, or colliding before a run.</span>
+                    <li class="tutorial-item">
+                        <a href="tutorials/10-data-lineage-map.html">
+                            <span class="tutorial-number">10</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Using the Data Lineage Map<span class="badge badge-new">New</span></span>
+                                <span class="tutorial-desc">Toggle the visual overlay to instantly verify which variables are mapped, missing, or colliding.</span>
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="tutorials/11-pipeline-versioning.html" class="text-gray-200 hover:text-white transition flex items-start gap-2 decoration-none">
-                            <span class="text-purple-400 font-mono mt-1">11</span>
-                            <div>
-                                <span class="block font-medium">Pipeline Version History &amp; Restore <span style="font-size:0.65em; background:rgba(139,92,246,0.15); color:#c4b5fd; border-radius:20px; padding:1px 7px; vertical-align:middle;">New</span></span>
-                                <span class="text-sm text-gray-400">Browse previous canvas saves and restore any past snapshot without ever losing history.</span>
+                    <li class="tutorial-item">
+                        <a href="tutorials/11-pipeline-versioning.html">
+                            <span class="tutorial-number">11</span>
+                            <div class="tutorial-content">
+                                <span class="tutorial-name">Pipeline Version History<span class="badge badge-advanced">Advanced</span></span>
+                                <span class="tutorial-desc">Browse previous canvas saves and restore any past snapshot without ever losing development history.</span>
                             </div>
                         </a>
                     </li>
