@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,42 +21,30 @@
         <h1>Tutorial 9: Mastering the Variable Register</h1>
         <p class="text-xl text-indigo-300 font-medium mb-8">Learn how to trace data lineage across your entire enterprise deployment and debug missing data links using the Master Variable Register.</p>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">1</div>
-            <div>
-                <h3>Identify an Orphaned Output</h3>
+        <div class="tutorial-step"><h3>1. Identify an Orphaned Output</h3>
                 <p>Create a new Template and upload a dummy Word document containing the text: <code>{{phantom_variable}}</code>.</p>
                 <p>Click Inspect Required Fields on this template to register the variable.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">2</div>
-            <div>
-                <h3>Navigate to the Master Register</h3>
+        <div class="tutorial-step"><h3>2. Navigate to the Master Register</h3>
                 <p>In the main app sidebar, click <strong>Master Variables</strong> under the Orchestration heading.</p>
                 <p>This is the global dictionary tracking every known variable field across your tenant.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">3</div>
-            <div>
-                <h3>Inspect Lineage</h3>
+        <div class="tutorial-step"><h3>3. Inspect Lineage</h3>
                 <p>Search for `phantom_variable` in the list and click its info icon to view details.</p>
                 <p>You will see a modal split into two halves: <strong>Extracted By</strong> (Tools) and <strong>Required By</strong> (Templates).</p>
                 <p>Notice that your new template is listed under "Required By", but the "Extracted By" section is completely empty.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">4</div>
-            <div>
-                <h3>Complete the Circuit</h3>
+        <div class="tutorial-step"><h3>4. Complete the Circuit</h3>
                 <p>To fix the orphaned output, you need an Extractor that provides this data.</p>
                 <p>Create a new Agent Tool with a JSON Schema containing a string property precisely named `phantom_variable`.</p>
                 <p>Return to the Master Variable Register and inspect `phantom_variable` again.</p>
-            </div>
+            
         </div>
 
         <div class="callout success" style="border-left-color: #6366f1">
@@ -65,15 +53,25 @@
                 <strong>Verify Success:</strong> The variable lineage modal will now show the new Agent Tool listed as the source ("Extracted By") and your Template as the destination ("Required By"). Because this logical link exists in the Register, any Orchestration Pipeline containing both will successfully map data between them with zero manual configuration.
             </div>
         </div>
-
-        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
-            <a href="08-multi-node.html" class="text-gray-400 hover:text-white transition decoration-none">
-                <i class="fas fa-arrow-left mr-2"></i> Tutorial 8
-            </a>
-            <a href="../../index.html" class="text-blue-400 hover:text-blue-300 transition decoration-none font-medium">
-                Home <i class="fas fa-home ml-2"></i>
-            </a>
-        </div>
+        <div class="page-nav" id="custom-page-navigation">
+        <a href="08-multi-node.html" class="prev">
+            <i class="fas fa-arrow-left"></i>
+            <div>
+                <span class="nav-label">Previous</span>
+                <span class="nav-title">Tutorial 8: Multi-Input Pipelines</span>
+            </div>
+        </a>
+        <a href="../tutorials.html" title="Back to Tutorials" style="display: flex; align-items: center; justify-content: center; padding: 1rem; border-radius: 50%; background: rgba(255,255,255,0.05); color: #94a3b8; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.background='rgba(59,130,246,0.2)'; this.style.color='#60a5fa'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#94a3b8'">
+            <i class="fas fa-list"></i>
+        </a>
+        <a href="10-data-lineage-map.html" class="next">
+            <div>
+                <span class="nav-label">Next</span>
+                <span class="nav-title">Tutorial 10: Using the Data Lineage Map</span>
+            </div>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
     </main>
     <script>window.DOCS_BASE_PATH = '../';</script>
     <script src="../sidebar.js"></script>

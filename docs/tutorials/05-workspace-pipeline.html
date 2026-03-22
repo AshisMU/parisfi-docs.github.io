@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,55 +21,39 @@
         <h1>Tutorial 5: Multi-Step Workspace Pipeline</h1>
         <p class="text-xl text-amber-300 font-medium mb-8">Learn how to build a linear automation sequence that categorises a document, extracts data, and branches logic based on rules.</p>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">1</div>
-            <div>
-                <h3>Create a Workspace</h3>
+        <div class="tutorial-step"><h3>1. Create a Workspace</h3>
                 <p>Navigate to <strong>Workspaces</strong> and click <strong>Create Workspace</strong>.</p>
                 <p>Name it "Invoice Processing".</p>
                 <p>Click <strong>Edit Pipeline</strong> to open the builder.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">2</div>
-            <div>
-                <h3>Add an Auto-Categorise Step</h3>
+        <div class="tutorial-step"><h3>2. Add an Auto-Categorise Step</h3>
                 <p>In the workspace editor, toggle <strong>Enable Auto-Categorisation</strong> to ON.</p>
                 <p>This automatically inserts a step at the very beginning of the pipeline that uses the LLM to classify the document against your configured Taxonomy (e.g. Invoice, Contract, Receipt).</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">3</div>
-            <div>
-                <h3>Add a Branch Step</h3>
+        <div class="tutorial-step"><h3>3. Add a Branch Step</h3>
                 <p>Click the <strong>Add Branch</strong> button.</p>
                 <p>In the wizard, configure the condition: "If document category equals Invoice".</p>
                 <p>This creates a split: a YES path and a NO path.</p>
                 <img src="../assets/tutorial_workspace.png" alt="Parsifi Pipeline Builder Graph" class="mt-4 rounded-lg shadow-xl shadow-black/50 border border-white/10" style="max-height: 400px; display: block;">
-            </div>
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">4</div>
-            <div>
-                <h3>Add an Agent Tool to the YES Path</h3>
+        <div class="tutorial-step"><h3>4. Add an Agent Tool to the YES Path</h3>
                 <p>Inside the YES branch container, click <strong>Add Agent Tool</strong>.</p>
                 <p>Select the "Invoice Extractor" tool you built in Tutorial 2.</p>
                 <p>Optionally add an Analysis step to the NO branch to log a warning like "Document is not an invoice".</p>
                 <p>Click <strong>Save Pipeline</strong>.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">5</div>
-            <div>
-                <h3>Execute the Workspace</h3>
+        <div class="tutorial-step"><h3>5. Execute the Workspace</h3>
                 <p>Go to the <strong>Dashboard</strong> and select your "Invoice Processing" workspace from the dropdown in the upload zone.</p>
                 <p>Upload an invoice document.</p>
                 <p>Click the document row to view the execution log.</p>
-            </div>
+            
         </div>
 
         <div class="callout success" style="border-left-color: #f59e0b">
@@ -78,15 +62,25 @@
                 <strong>Verify Success:</strong> In the execution log, you should see the pipeline categorise the document as an Invoice, take the YES path of the branch, and successfully run the Invoice Extractor schema tool. Uploading a non-invoice document should take the NO path instead.
             </div>
         </div>
-
-        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
-            <a href="04-template-fill-pdf.html" class="text-gray-400 hover:text-white transition decoration-none">
-                <i class="fas fa-arrow-left mr-2"></i> Tutorial 4
-            </a>
-            <a href="06-repeat-loops.html" class="text-amber-400 hover:text-amber-300 transition decoration-none font-medium">
-                Tutorial 6: Repeat Loops <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
+        <div class="page-nav" id="custom-page-navigation">
+        <a href="04-template-fill-pdf.html" class="prev">
+            <i class="fas fa-arrow-left"></i>
+            <div>
+                <span class="nav-label">Previous</span>
+                <span class="nav-title">Tutorial 4: AcroForm PDF</span>
+            </div>
+        </a>
+        <a href="../tutorials.html" title="Back to Tutorials" style="display: flex; align-items: center; justify-content: center; padding: 1rem; border-radius: 50%; background: rgba(255,255,255,0.05); color: #94a3b8; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.background='rgba(59,130,246,0.2)'; this.style.color='#60a5fa'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#94a3b8'">
+            <i class="fas fa-list"></i>
+        </a>
+        <a href="06-repeat-loops.html" class="next">
+            <div>
+                <span class="nav-label">Next</span>
+                <span class="nav-title">Tutorial 6: Repeat Loops</span>
+            </div>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
     </main>
     <script>window.DOCS_BASE_PATH = '../';</script>
     <script src="../sidebar.js"></script>

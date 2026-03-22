@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,16 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../docs.css">
-    <style>
-        .tutorial-step { display: flex; gap: 1.5rem; margin-bottom: 2.5rem; }
-        .step-number { flex-shrink: 0; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #1e293b; border: 2px solid #14b8a6; color: #5eead4; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; margin-top: 2px; }
-        .step-content h3 { margin-top: 0; }
-        .var-pill { display: inline-flex; align-items: center; gap: 0.4em; padding: 2px 10px; border-radius: 99px; font-size: 0.8em; font-family: monospace; font-weight: 600; }
-        .var-ok { background: #042f2e; border: 1.5px solid #14b8a6; color: #5eead4; }
-        .var-unmet { background: #450a0a; border: 1.5px dashed #ef4444; color: #fca5a5; }
-        .var-collision { background: #451a03; border: 1.5px solid #f97316; color: #fdba74; }
-    </style>
-</head>
+    </head>
 
 <body>
 
@@ -43,77 +34,59 @@
         </div>
 
         <h2>What Is the Data Lineage Map?</h2>
-        <p>The Data Lineage Map is a visual overlay you can toggle on the Pipeline Canvas. Instead of showing just the <em>execution order</em> (Node A → Node B), it shows you the actual <em>data variables</em> flowing between nodes — which variables are produced by your Extractors, and which are consumed by your Generator Templates.</p>
+        <p>The Data Lineage Map is a visual overlay you can toggle on the Pipeline Canvas. Instead of showing just the <em>execution order</em> (Node A â†’ Node B), it shows you the actual <em>data variables</em> flowing between nodes — which variables are produced by your Extractors, and which are consumed by your Generator Templates.</p>
 
         <p>Each variable appears as a small ellipse node on the canvas, colour-coded by its status:</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
             <div class="bg-teal-900/20 border border-teal-500/30 p-4 rounded-lg">
                 <span class="var-pill var-ok mb-2"><i class="fas fa-check-circle"></i> company_name</span>
-                <h3 class="text-teal-300 text-base mt-3 mb-1">Teal — Mapped ✓</h3>
+                <h3 class="text-teal-300 text-base mt-3 mb-1">Teal — Mapped âœ“</h3>
                 <p class="text-sm text-gray-400 m-0">An Extractor produces this variable AND a Generator template consumes it. Data will flow correctly.</p>
             </div>
             <div class="bg-red-900/20 border border-red-500/30 p-4 rounded-lg">
                 <span class="var-pill var-unmet mb-2"><i class="fas fa-exclamation-triangle"></i> tax_id</span>
-                <h3 class="text-red-300 text-base mt-3 mb-1">Red — Unmet ⚠</h3>
+                <h3 class="text-red-300 text-base mt-3 mb-1">Red — Unmet âš </h3>
                 <p class="text-sm text-gray-400 m-0">The template requires <code>tax_id</code> but no Extractor on the canvas produces it. The field will be blank at runtime.</p>
             </div>
             <div class="bg-orange-900/20 border border-orange-500/30 p-4 rounded-lg">
                 <span class="var-pill var-collision mb-2"><i class="fas fa-bolt"></i> total_amount</span>
-                <h3 class="text-orange-300 text-base mt-3 mb-1">Orange — Collision ⚡</h3>
+                <h3 class="text-orange-300 text-base mt-3 mb-1">Orange — Collision âš¡</h3>
                 <p class="text-sm text-gray-400 m-0">Two Extractors both produce <code>total_amount</code>. One will overwrite the other — rename one tool's output field to resolve.</p>
-            </div>
+            
         </div>
 
         <h2>Step-by-Step</h2>
 
-        <div class="tutorial-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-                <h3>Open the Pipeline Canvas</h3>
+        <div class="tutorial-step"><h3>1. Open the Pipeline Canvas</h3>
                 <p>Navigate to <strong>Orchestration &rarr; Data Flow Graph</strong>. Select a pipeline from the dropdown. The canvas will load with your nodes and edges in execution-order view.</p>
-                <p>Once the graph is loaded, the toolbar will show the <strong>👁 Data Map</strong> button in teal.</p>
-            </div>
+                <p>Once the graph is loaded, the toolbar will show the <strong>ðŸ‘ Data Map</strong> button in teal.</p>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-                <h3>Click "Data Map" to Activate the Overlay</h3>
-                <p>Click the <strong>👁 Data Map</strong> button. Parsifi will:</p>
+        <div class="tutorial-step"><h3>2. Click "Data Map" to Activate the Overlay</h3>
+                <p>Click the <strong>ðŸ‘ Data Map</strong> button. Parsifi will:</p>
                 <ul>
                     <li>Fetch the JSON schema for every Extractor node's linked Agent Tool to get its <em>produced</em> variable names.</li>
                     <li>Fetch the <code>required_fields</code> list for every Generator node's linked Template to get its <em>consumed</em> variable names.</li>
                     <li>Cross-reference the two lists and inject variable ellipse nodes and dashed edges onto the canvas.</li>
                 </ul>
-                <p>A toast notification will appear summarising: <em>"Data Map: 5 mapped · 1 unmet ⚠"</em>.</p>
-            </div>
+                <p>A toast notification will appear summarising: <em>"Data Map: 5 mapped Â· 1 unmet âš "</em>.</p>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-                <h3>Inspect the Legend in the Side Panel</h3>
-                <p>The right inspector panel switches to the <strong>Data Map Legend</strong>, which explains each colour state. You can scroll the canvas to trace the dashed edges between Extractor → Variable → Generator.</p>
-            </div>
+        <div class="tutorial-step"><h3>3. Inspect the Legend in the Side Panel</h3>
+                <p>The right inspector panel switches to the <strong>Data Map Legend</strong>, which explains each colour state. You can scroll the canvas to trace the dashed edges between Extractor â†’ Variable â†’ Generator.</p>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-                <h3>Resolve Red (Unmet) Variables</h3>
+        <div class="tutorial-step"><h3>4. Resolve Red (Unmet) Variables</h3>
                 <p>A red variable node means your template requires a field that nothing produces. Common fixes:</p>
                 <ul>
                     <li><strong>Add it to an Extractor's schema:</strong> Open the Agent Tool linked to your Extractor node and add the missing property to its JSON Output Schema.</li>
                     <li><strong>Add a new Extractor node:</strong> If the missing data comes from a different document, add another Extractor node and link it to a tool that does produce that field.</li>
                     <li><strong>Remove it from the template:</strong> If the field is optional, simply remove the placeholder from your DOCX/PDF template.</li>
                 </ul>
-            </div>
-        </div>
-
-        <div class="tutorial-step">
-            <div class="step-number">5</div>
-            <div class="step-content">
-                <h3>Resolve Orange (Collision) Variables</h3>
+            </div><div class="tutorial-step"><h3>5. Resolve Orange (Collision) Variables</h3>
                 <p>An orange variable means two Extractors produce the same JSON key. Whichever Extractor runs last will win. To resolve:</p>
                 <ol>
                     <li>Open the Agent Tool linked to one of the colliding Extractors.</li>
@@ -121,32 +94,38 @@
                     <li>Update the template placeholder to match (<code>{{invoice_total}}</code>).</li>
                     <li>Refresh the Data Map by clicking Hide Map then Data Map again.</li>
                 </ol>
-            </div>
-        </div>
-
-        <div class="tutorial-step">
-            <div class="step-number">6</div>
-            <div class="step-content">
-                <h3>Hide the Map and Run</h3>
+            </div><div class="tutorial-step"><h3>6. Hide the Map and Run</h3>
                 <p>Once all variables are teal (mapped), click <strong>Hide Map</strong> to return to the normal execution canvas. You can now be confident that all data dependencies are satisfied and click <strong>Run</strong> to execute the pipeline.</p>
-            </div>
+            
         </div>
 
         <div class="callout tip">
             <i class="fas fa-lightbulb icon"></i>
             <div>Use the Data Map as your <strong>pre-flight check</strong> every time you add a new Generator or modify a Tool schema. Checking it takes 5 seconds and prevents blank fields in generated documents.</div>
         </div>
-
-        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
-            <a href="09-variable-register.html" class="text-gray-400 hover:text-white transition decoration-none">
-                <i class="fas fa-arrow-left mr-2"></i> 09 — Variable Register
-            </a>
-            <a href="11-pipeline-versioning.html" class="text-blue-400 hover:text-blue-300 transition decoration-none font-medium">
-                11 — Pipeline Versioning <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
+        
+        <div class="page-nav" id="custom-page-navigation">
+        <a href="09-variable-register.html" class="prev">
+            <i class="fas fa-arrow-left"></i>
+            <div>
+                <span class="nav-label">Previous</span>
+                <span class="nav-title">Tutorial 9: Variable Register</span>
+            </div>
+        </a>
+        <a href="../tutorials.html" title="Back to Tutorials" style="display: flex; align-items: center; justify-content: center; padding: 1rem; border-radius: 50%; background: rgba(255,255,255,0.05); color: #94a3b8; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.background='rgba(59,130,246,0.2)'; this.style.color='#60a5fa'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#94a3b8'">
+            <i class="fas fa-list"></i>
+        </a>
+        <a href="11-pipeline-versioning.html" class="next">
+            <div>
+                <span class="nav-label">Next</span>
+                <span class="nav-title">Tutorial 11: Pipeline Version History</span>
+            </div>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
     </main>
 
+    <script>window.DOCS_BASE_PATH = '../';</script>
     <script src="../sidebar.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

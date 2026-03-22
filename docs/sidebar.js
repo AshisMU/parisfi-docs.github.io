@@ -47,10 +47,12 @@ function initSidebar(activeId) {
     const container = document.getElementById('sidebar-container');
     if (!container) return; // Exit if not present
 
+    const base = (typeof window.DOCS_BASE_PATH !== 'undefined') ? window.DOCS_BASE_PATH : '';
+
     // Build Header
     let html = `
         <div class="sidebar-header">
-            <a href="../index.html" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+            <a href="${base}index.html" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
                 <i class="fas fa-layer-group text-blue-400" style="font-size: 1.5rem;"></i>
                 <h1>Parsifi</h1>
             </a>
@@ -65,7 +67,7 @@ function initSidebar(activeId) {
 
         section.items.forEach(item => {
             const isActive = item.id === activeId ? 'active' : '';
-            html += `<a href="${item.href}" class="nav-item ${isActive}">
+            html += `<a href="${base}${item.href}" class="nav-item ${isActive}">
                         ${item.label}
                      </a>`;
         });
@@ -76,7 +78,7 @@ function initSidebar(activeId) {
     html += `
         </div>
         <div style="padding: 1.5rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
-            <a href="../index.html" class="text-sm text-gray-400 hover:text-white transition" style="text-decoration: none;">
+            <a href="${base}../index.html" class="text-sm text-gray-400 hover:text-white transition" style="text-decoration: none;">
                 <i class="fas fa-arrow-left mr-2"></i> Back to Marketing Site
             </a>
         </div>
@@ -85,10 +87,11 @@ function initSidebar(activeId) {
     container.innerHTML = html;
 
     // Build Page Nav (Next/Prev) if container exists
-    buildPageNavigation(activeId);
+    buildPageNavigation(activeId, base);
 }
 
-function buildPageNavigation(activeId) {
+function buildPageNavigation(activeId, base) {
+    base = base || '';
     const container = document.getElementById('page-navigation');
     if (!container) return;
 
@@ -104,7 +107,7 @@ function buildPageNavigation(activeId) {
     if (currentIndex > 0) {
         const prev = flatItems[currentIndex - 1];
         html += `
-            <a href="${prev.href}" class="prev">
+            <a href="${base}${prev.href}" class="prev">
                 <i class="fas fa-arrow-left"></i>
                 <div>
                     <span class="nav-label">Previous</span>
@@ -120,7 +123,7 @@ function buildPageNavigation(activeId) {
     if (currentIndex < flatItems.length - 1) {
         const next = flatItems[currentIndex + 1];
         html += `
-            <a href="${next.href}" class="next">
+            <a href="${base}${next.href}" class="next">
                 <div>
                     <span class="nav-label">Next</span>
                     <span class="nav-title">${next.label}</span>

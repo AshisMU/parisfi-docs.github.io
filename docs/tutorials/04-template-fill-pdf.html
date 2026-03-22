@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,42 +21,30 @@
         <h1>Tutorial 4: Template Fill (AcroForm PDF)</h1>
         <p class="text-xl text-teal-300 font-medium mb-8">Learn how to fill standard PDF forms (AcroForms) using data extracted by Parsifi.</p>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">1</div>
-            <div>
-                <h3>Upload an AcroForm PDF</h3>
+        <div class="tutorial-step"><h3>1. Upload an AcroForm PDF</h3>
                 <p>Navigate to <strong>Templates</strong> in Parsifi.</p>
                 <p>Click <strong>Upload Template</strong> and select a PDF file that contains interactive form fields (AcroForm).</p>
                 <p>If you don't have one, search online for "sample AcroForm PDF". A common example is the US IRS W-9 form.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">2</div>
-            <div>
-                <h3>Inspect Form Fields</h3>
+        <div class="tutorial-step"><h3>2. Inspect Form Fields</h3>
                 <p>Once uploaded, click the <strong>Inspect Required Fields</strong> button (eye icon) next to your PDF template.</p>
                 <p>Parsifi will extract and list every named field in the PDF. Unlike DOCX templates which use `{{placeholders}}`, PDF templates use the underlying names of the form fields themselves (e.g. `topmostSubform[0].Page1[0].f1_01_0_[0]`).</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">3</div>
-            <div>
-                <h3>Map to JSON Schema</h3>
+        <div class="tutorial-step"><h3>3. Map to JSON Schema</h3>
                 <p>To fill this form automatically in a pipeline, your Agent Tool's output JSON Schema keys must exactly match the PDF form field names.</p>
                 <p>Navigate to <strong>Advanced > JSON Schemas</strong> and create a schema where the property names match the physical PDF field names.</p>
                 <p>If the PDF field name contains special characters (like brackets `[]`), you must use the exact string in your schema definition.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">4</div>
-            <div>
-                <h3>Checkboxes and Radio Buttons</h3>
+        <div class="tutorial-step"><h3>4. Checkboxes and Radio Buttons</h3>
                 <p>To tick a checkbox or select a radio button in a PDF, your LLM must output the specific export value defined in the PDF for that state.</p>
                 <p>Commonly, this is `"Yes"`, `"On"`, or `"1"`. If you are unsure, you may need to open the PDF in Adobe Acrobat and check the properties of the physical field to see its exact export value when checked.</p>
-            </div>
+            
         </div>
 
         <div class="callout success" style="border-left-color: #14b8a6">
@@ -65,15 +53,25 @@
                 <strong>Verify Success:</strong> When a pipeline executes that links your Extractor tool to this PDF Template, a new PDF will be generated with the form fields permanently flattened and filled with the extracted data.
             </div>
         </div>
-
-        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
-            <a href="03-template-fill-docx.html" class="text-gray-400 hover:text-white transition decoration-none">
-                <i class="fas fa-arrow-left mr-2"></i> Tutorial 3
-            </a>
-            <a href="05-workspace-pipeline.html" class="text-amber-400 hover:text-amber-300 transition decoration-none font-medium">
-                Tutorial 5: Workspace Pipelines <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
+        <div class="page-nav" id="custom-page-navigation">
+        <a href="03-template-fill-docx.html" class="prev">
+            <i class="fas fa-arrow-left"></i>
+            <div>
+                <span class="nav-label">Previous</span>
+                <span class="nav-title">Tutorial 3: DOCX Templates</span>
+            </div>
+        </a>
+        <a href="../tutorials.html" title="Back to Tutorials" style="display: flex; align-items: center; justify-content: center; padding: 1rem; border-radius: 50%; background: rgba(255,255,255,0.05); color: #94a3b8; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.background='rgba(59,130,246,0.2)'; this.style.color='#60a5fa'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#94a3b8'">
+            <i class="fas fa-list"></i>
+        </a>
+        <a href="05-workspace-pipeline.html" class="next">
+            <div>
+                <span class="nav-label">Next</span>
+                <span class="nav-title">Tutorial 5: Workspace Pipeline</span>
+            </div>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
     </main>
     <script>window.DOCS_BASE_PATH = '../';</script>
     <script src="../sidebar.js"></script>

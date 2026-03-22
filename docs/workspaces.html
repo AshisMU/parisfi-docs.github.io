@@ -110,6 +110,16 @@
         <h2>Variable Chaining</h2>
         <p>Use <code>{{Step Name.output}}</code> in a step's variable value to inject the full text output of a preceding step. The schema-aware variable helper popup makes this easy — it shows individual field names from the tool's JSON Schema so you can reference exact fields without typing.</p>
 
+        <h2>Cross-Document Referencing</h2>
+        <p>You can reference the results of one document directly inside another pipeline step without combining them into a single collection. This is powerful for multi-document auditing or cross-referencing against a Master Agreement.</p>
+        <p>In any step's Target Source dropdown, select <strong>Another Document or Collection…</strong> to reference a previously analysed document. Parsifi auto-inserts the correct <code>{{ext_DocumentName.step_StepName}}</code> tag into the prompt.</p>
+        <div class="shadow-xl rounded-lg border border-white/10 p-2 bg-black/40 inline-block mb-4">
+            <img src="assets/feature_prompts_cross_doc.png"
+                alt="Parsifi Workspace Builder showing Target Source dropdown with cross-document referencing"
+                class="rounded" style="max-height: 300px; display:block;">
+        </div>
+        <p class="text-sm text-gray-400 italic">Select another document directly in the Workspace Builder to auto-generate the correct ext_ tag.</p>
+
         <h2>Automated Re-aggregation</h2>
         <p>When you run a workspace on a document within a collection, Parsifi automatically triggers a
             re-aggregation of the collection's results, ensuring your project-level dashboard is always up to date.

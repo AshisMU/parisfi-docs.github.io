@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,37 +21,28 @@
         <h1>Tutorial 2: Building Strict JSON Tools</h1>
         <p class="text-xl text-blue-300 font-medium mb-8">Move beyond simple chat by creating an Agent Tool that forces the LLM to return data exactly according to a JSON Schema.</p>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">1</div>
-            <div>
-                <h3>Create a JSON Schema</h3>
+        <div class="tutorial-step"><h3>1. Create a JSON Schema</h3>
                 <p>Navigate to <strong>Advanced > JSON Schemas</strong>. Click <strong>+ New Schema</strong>.</p>
                 <p>Name it "Invoice Schema". Add two properties: <code>invoice_number</code> (type: string) and <code>total_amount</code> (type: number).</p>
                 <p>Save the schema.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">2</div>
-            <div>
-                <h3>Create an Agent Tool</h3>
+        <div class="tutorial-step"><h3>2. Create an Agent Tool</h3>
                 <p>Navigate to <strong>Advanced > Tool Factory</strong>. Click <strong>+ New Tool</strong>.</p>
                 <p>Name it "Invoice Extractor".</p>
                 <p>In the System Prompt, write: <em>"You are a strict data extractor. Extract the invoice number and total amount from the document."</em></p>
                 <p>Under Output Schema, select the "Invoice Schema" you just created.</p>
                 <p>Ensure <strong>Strict Mode</strong> is toggled ON to guarantee schema compliance.</p>
                 <p>Save the tool.</p>
-            </div>
+            
         </div>
 
-        <div class="tutorial-step">
-            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">3</div>
-            <div>
-                <h3>Test the Tool</h3>
+        <div class="tutorial-step"><h3>3. Test the Tool</h3>
                 <p>Navigate to the <strong>Document Viewer</strong> and open an invoice document.</p>
                 <p>In the right-hand panel, switch from the Analysis tab to the <strong>Agent Tools</strong> tab.</p>
                 <p>Select your "Invoice Extractor" tool from the dropdown and click <strong>Run Tool</strong>.</p>
-            </div>
+            
         </div>
 
         <div class="callout success">
@@ -60,15 +51,25 @@
                 <strong>Verify Success:</strong> The output will not be a chatty paragraph. It will be a perfectly formatted JSON object containing exactly the keys <code>invoice_number</code> and <code>total_amount</code> with their corresponding values extracted from the document.
             </div>
         </div>
-
-        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
-            <a href="01-first-analysis.html" class="text-gray-400 hover:text-white transition decoration-none">
-                <i class="fas fa-arrow-left mr-2"></i> Tutorial 1
-            </a>
-            <a href="03-template-fill-docx.html" class="text-teal-400 hover:text-teal-300 transition decoration-none font-medium">
-                Tutorial 3: DOCX Templates <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
+        <div class="page-nav" id="custom-page-navigation">
+        <a href="01-first-analysis.html" class="prev">
+            <i class="fas fa-arrow-left"></i>
+            <div>
+                <span class="nav-label">Previous</span>
+                <span class="nav-title">Tutorial 1: First Analysis</span>
+            </div>
+        </a>
+        <a href="../tutorials.html" title="Back to Tutorials" style="display: flex; align-items: center; justify-content: center; padding: 1rem; border-radius: 50%; background: rgba(255,255,255,0.05); color: #94a3b8; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.background='rgba(59,130,246,0.2)'; this.style.color='#60a5fa'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#94a3b8'">
+            <i class="fas fa-list"></i>
+        </a>
+        <a href="03-template-fill-docx.html" class="next">
+            <div>
+                <span class="nav-label">Next</span>
+                <span class="nav-title">Tutorial 3: DOCX Templates</span>
+            </div>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
     </main>
     <script>window.DOCS_BASE_PATH = '../';</script>
     <script src="../sidebar.js"></script>
