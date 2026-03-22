@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 8: Multi-Input Pipelines - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+    <main>
+        <div class="breadcrumbs">
+            <a href="../../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <a href="../tutorials.html">Tutorials</a> <i class="fas fa-chevron-right"></i>
+            <span>08 Multi-Node Pipelines</span>
+        </div>
+
+        <h1>Tutorial 8: Multi-Input Pipelines (DAGs)</h1>
+        <p class="text-xl text-indigo-300 font-medium mb-8">Move away from linear workflows and build a true Directed Acyclic Graph (DAG) that waits for multiple distinct document uploads before generating a combined report.</p>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">1</div>
+            <div>
+                <h3>Prepare the Component Parts</h3>
+                <p>Ensure you have two Agent Tools ready: "Purchase Order Extractor" (extracts `po_value`) and "Invoice Extractor" (extracts `inv_value`).</p>
+                <p>Ensure you have a Template ready: A DOCX template that requires both `{{po_value}}` and `{{inv_value}}` side-by-side.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">2</div>
+            <div>
+                <h3>Configure Pipeline Inputs</h3>
+                <p>Create a new Pipeline using the Smart Wizard.</p>
+                <p>In the "Input Slots" section, define TWO document requirement slots: call the first "Purchase Order" and the second "Vendor Invoice".</p>
+                <p>Select both of your Extractor tools and your Generator template, then click Create.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">3</div>
+            <div>
+                <h3>Navigate the Upload Modal</h3>
+                <p>Click <strong>Run Pipeline</strong> on the Data Flow Graph canvas.</p>
+                <p>Notice the upload modal: unlike Workspaces which just ask for a single file, the pipeline execution modal explicitly demands files for both the "Purchase Order" slot and the "Vendor Invoice" slot.</p>
+                <p>You cannot launch the pipeline until both slots are satisfied.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-indigo-500/20 text-indigo-400 border border-indigo-500">4</div>
+            <div>
+                <h3>Observe Parallel Execution</h3>
+                <p>Upload a dummy document into each slot and launch.</p>
+            </div>
+        </div>
+
+        <div class="callout success" style="border-left-color: #6366f1">
+            <i class="fas fa-project-diagram icon" style="color: #6366f1"></i>
+            <div>
+                <strong>Verify Success:</strong> Observe the canvas behaviour during execution. Both extractor nodes will spin <strong>concurrently</strong> (parallel execution) since they depend on different inputs. The final Generator node will wait for both upstream extractors to finish before producing the final merged Word document containing structured data sourced from two separate physical files.
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="07-review-gate.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> Tutorial 7
+            </a>
+            <a href="09-variable-register.html" class="text-indigo-400 hover:text-indigo-300 transition decoration-none font-medium">
+                Tutorial 9: Variable Register <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+    <script>window.DOCS_BASE_PATH = '../';</script>
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initSidebar('tutorials'); });
+    </script>
+</body>
+</html>

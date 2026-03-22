@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 2: Strict JSON Tools - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+    <main>
+        <div class="breadcrumbs">
+            <a href="../../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <a href="../tutorials.html">Tutorials</a> <i class="fas fa-chevron-right"></i>
+            <span>02 Strict JSON Tools</span>
+        </div>
+
+        <h1>Tutorial 2: Building Strict JSON Tools</h1>
+        <p class="text-xl text-blue-300 font-medium mb-8">Move beyond simple chat by creating an Agent Tool that forces the LLM to return data exactly according to a JSON Schema.</p>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">1</div>
+            <div>
+                <h3>Create a JSON Schema</h3>
+                <p>Navigate to <strong>Advanced > JSON Schemas</strong>. Click <strong>+ New Schema</strong>.</p>
+                <p>Name it "Invoice Schema". Add two properties: <code>invoice_number</code> (type: string) and <code>total_amount</code> (type: number).</p>
+                <p>Save the schema.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">2</div>
+            <div>
+                <h3>Create an Agent Tool</h3>
+                <p>Navigate to <strong>Advanced > Tool Factory</strong>. Click <strong>+ New Tool</strong>.</p>
+                <p>Name it "Invoice Extractor".</p>
+                <p>In the System Prompt, write: <em>"You are a strict data extractor. Extract the invoice number and total amount from the document."</em></p>
+                <p>Under Output Schema, select the "Invoice Schema" you just created.</p>
+                <p>Ensure <strong>Strict Mode</strong> is toggled ON to guarantee schema compliance.</p>
+                <p>Save the tool.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">3</div>
+            <div>
+                <h3>Test the Tool</h3>
+                <p>Navigate to the <strong>Document Viewer</strong> and open an invoice document.</p>
+                <p>In the right-hand panel, switch from the Analysis tab to the <strong>Agent Tools</strong> tab.</p>
+                <p>Select your "Invoice Extractor" tool from the dropdown and click <strong>Run Tool</strong>.</p>
+            </div>
+        </div>
+
+        <div class="callout success">
+            <i class="fas fa-check-circle icon"></i>
+            <div>
+                <strong>Verify Success:</strong> The output will not be a chatty paragraph. It will be a perfectly formatted JSON object containing exactly the keys <code>invoice_number</code> and <code>total_amount</code> with their corresponding values extracted from the document.
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="01-first-analysis.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> Tutorial 1
+            </a>
+            <a href="03-template-fill-docx.html" class="text-teal-400 hover:text-teal-300 transition decoration-none font-medium">
+                Tutorial 3: DOCX Templates <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+    <script>window.DOCS_BASE_PATH = '../';</script>
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initSidebar('tutorials'); });
+    </script>
+</body>
+</html>

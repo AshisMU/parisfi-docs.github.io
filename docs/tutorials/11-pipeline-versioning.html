@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 11: Pipeline Version History - Parsifi Docs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../docs.css">
+    <style>
+        .tutorial-step { display: flex; gap: 1.5rem; margin-bottom: 2.5rem; }
+        .step-number { flex-shrink: 0; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #1e293b; border: 2px solid #8b5cf6; color: #c4b5fd; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; margin-top: 2px; }
+        .step-content h3 { margin-top: 0; }
+        .version-row { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; background: #0f172a; border: 1px solid rgba(255,255,255,0.06); }
+        .version-row.current { border-color: #14b8a6; }
+        .badge-current { font-size: 0.65em; background: rgba(20,184,166,0.15); color: #5eead4; border-radius: 20px; padding: 2px 8px; margin-left: 6px; }
+        .badge-archive { font-size: 0.65em; background: rgba(255,255,255,0.05); color: #64748b; border-radius: 20px; padding: 2px 8px; margin-left: 6px; }
+    </style>
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <a href="../tutorials.html">Tutorials</a> <i class="fas fa-chevron-right"></i>
+            <span>Pipeline Versioning</span>
+        </div>
+
+        <div class="flex items-center gap-3 mb-2">
+            <span class="text-purple-400 font-mono font-bold text-2xl">11</span>
+            <h1 class="m-0">Pipeline Version History &amp; Restore</h1>
+        </div>
+        <p class="text-xl text-purple-300 font-medium mb-8">Every time you save a pipeline canvas, Parsifi creates an immutable version snapshot. Learn how to browse the history, compare changes, and safely restore a previous graph configuration.</p>
+
+        <div class="callout">
+            <i class="fas fa-info-circle icon"></i>
+            <div><strong>Prerequisites:</strong> You need an existing Orchestration Pipeline. See <a href="07-review-gate.html">Tutorial 07</a> or <a href="08-multi-node.html">Tutorial 08</a>. This tutorial is most useful if you have already made several canvas saves and want to track or revert changes.</div>
+        </div>
+
+        <h2>How Versioning Works</h2>
+        <p>When you first create a pipeline (via the Smart Wizard or by saving a new canvas), Parsifi automatically records <strong>Version 1</strong>. Every subsequent time you click <strong>Save Canvas</strong>, a new version row is created. The pipeline's "live" state is always the most recent version, but all previous versions are preserved indefinitely.</p>
+
+        <div class="my-6 rounded-xl border border-white/10 overflow-hidden">
+            <div class="text-xs text-gray-500 uppercase font-bold p-3 border-b border-white/5 bg-white/3">Example Version Timeline</div>
+            <div class="p-3 space-y-1">
+                <div class="version-row current">
+                    <div>
+                        <span class="font-bold text-teal-400">v3</span><span class="badge-current">Current</span>
+                        <div class="text-xs text-gray-500 mt-1">Added human review gate for amounts &gt; $10k</div>
+                    </div>
+                    <span class="text-xs text-gray-600">22 Mar 2026, 13:40</span>
+                </div>
+                <div class="version-row" style="opacity:0.65">
+                    <div>
+                        <span class="font-bold text-gray-400">v2</span><span class="badge-archive">Archive</span>
+                        <div class="text-xs text-gray-500 mt-1">Canvas save #2</div>
+                    </div>
+                    <span class="text-xs text-gray-600">14 Feb 2026, 09:12</span>
+                </div>
+                <div class="version-row" style="opacity:0.65">
+                    <div>
+                        <span class="font-bold text-gray-400">v1</span><span class="badge-archive">Archive</span>
+                        <div class="text-xs text-gray-500 mt-1">Initial version</div>
+                    </div>
+                    <span class="text-xs text-gray-600">01 Jan 2026, 08:00</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>Step-by-Step</h2>
+
+        <div class="tutorial-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Open the Pipeline in the Graph View</h3>
+                <p>Navigate to <strong>Orchestration &rarr; Data Flow Graph</strong>, and select your pipeline from the dropdown. The canvas loads and the toolbar shows the <strong>🕐 History</strong> button.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>Open the History Panel</h3>
+                <p>Click the <strong>🕐 History</strong> button. The right inspector panel will display the full version timeline in descending order (newest at the top). Each entry shows:</p>
+                <ul>
+                    <li><strong>Version number</strong> — e.g. "v3", with a "Current" badge on the latest one.</li>
+                    <li><strong>Change note</strong> — either a custom message (future feature) or an auto-generated label like "Canvas save #2".</li>
+                    <li><strong>Timestamp</strong> — the date and time the save was made.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>Restore a Previous Version</h3>
+                <p>Click the <strong>Restore</strong> button next to any archived version. Parsifi will load its exact nodes and edges back onto the canvas. A toast notification will confirm: <em>"Restored to v1. Click Save Canvas to make it permanent."</em></p>
+                <div class="callout" style="border-left-color:#f59e0b">
+                    <i class="fas fa-exclamation-triangle icon" style="color:#f59e0b"></i>
+                    <div>Restoring only <em>loads</em> the old state onto the canvas — it does not automatically save. You must review the restored graph first, then click <strong>Save Canvas</strong> to commit it as a new version.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3>Review and Save the Restored Canvas</h3>
+                <p>After restoring, inspect the graph to confirm this is the correct state. When ready, click <strong>Edit Canvas</strong> to enter edit mode, and then click <strong>Save Canvas</strong>. This creates a new version (e.g. "v4 — Canvas save #4") which is now the new "Current" version. The full history from v1 to v4 is preserved.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h3>Run the Pipeline</h3>
+                <p>After a successful restore and save, running the pipeline will use the newly restored graph configuration. Navigate to the <strong>My Pipelines</strong> tab and click <strong>Run</strong>, or use the Play button on the graph tab toolbar.</p>
+            </div>
+        </div>
+
+        <h2>Best Practices</h2>
+        <ul>
+            <li><strong>Save deliberately:</strong> Each canvas save creates a version. Avoid mindless saves — save when you reach a meaningful, tested milestone.</li>
+            <li><strong>Before a big change, verify the current state:</strong> Open the History panel to confirm what "current" looks like before making major structural edits.</li>
+            <li><strong>Compliance audit trail:</strong> Version timestamps serve as a timestamped record proving which logic was active at any point in time — valuable if a regulatory question arises about a document generated months ago.</li>
+        </ul>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="10-data-lineage-map.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> 10 — Data Lineage Map
+            </a>
+            <a href="../tutorials.html" class="text-blue-400 hover:text-blue-300 transition decoration-none font-medium">
+                All Tutorials <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('tutorials');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('sidebar-container');
+            if (mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    mobileMenuBtn.innerHTML = sidebar.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

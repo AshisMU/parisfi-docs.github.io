@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Best Practices</span> <i class="fas fa-chevron-right"></i>
+            <span>Glossary</span>
+        </div>
+
+        <h1>Glossary of Terms</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">A quick reference guide for Parsifi concepts and architecture terminology.</p>
+
+        <dl class="glossary-list">
+            <dt>Agent Tool</dt>
+            <dd>A persistent, modular configuration built in the Tool Factory. Combines a prompt, an optional output JSON schema, and execution rules for reusable extraction tasks.</dd>
+            
+            <dt>Branch Step</dt>
+            <dd>A pipeline step in a Workspace that resolves a Jinja2 condition expression to dynamically split logic into YES/NO routing tracks.</dd>
+            
+            <dt>Docling</dt>
+            <dd>The highly-optimized open-source core IBM engine that Parsifi wraps to handle layout-dense PDF document reading and Markdown conversion.</dd>
+            
+            <dt>Data Lineage</dt>
+            <dd>The visual traceability of data within a Pipeline's Data Flow Graph, allowing users to see exactly which document and tool produced a specific extracted variable.</dd>
+
+            <dt>Data Lineage Map</dt>
+            <dd>An interactive visual overlay on the Pipeline Canvas (toggled via the 👁 Data Map button) that renders variable nodes between Extractor and Generator nodes. Variable nodes are colour-coded: <strong>teal</strong> = correctly mapped, <strong>red</strong> = unmet (template requires a variable no Extractor produces), <strong>orange</strong> = collision (two Extractors produce the same variable name).</dd>
+
+            <dt>Human Review Gate</dt>
+            <dd>A node in an Orchestration Pipeline that pauses execution until a human user manually verifies, edits, and approves the data extracted by preceding steps.</dd>
+
+            <dt>Input Slot</dt>
+            <dd>An explicit requirement defined in an Orchestration Pipeline (such as a 'Primary Contract' document or 'Company Context' text) that must be fulfilled before the pipeline can run.</dd>
+
+            <dt>Map-Reduce Extraction</dt>
+            <dd>The process of sequentially distributing large context windows into discrete, hierarchical chunks so the LLM does not hallucinate, before dynamically merging them to satisfy an overarching query.</dd>
+
+            <dt>Pipeline (Orchestration)</dt>
+            <dd>A multi-input, multi-output Directed Acyclic Graph (DAG) that wires Agent Tools to Templates using the Variable Register. Used for complex document generation workflows, unlike the linear Workspace.</dd>
+
+            <dt>Pipeline Version</dt>
+            <dd>An immutable, numbered snapshot of a Pipeline's graph (nodes, edges, and configuration) automatically created every time the canvas is saved. Accessible via the 🕐 History button; any past version can be restored to the canvas and re-committed as a new version, preserving the full history.</dd>
+            
+            <dt>Recipe</dt>
+            <dd>A pre-built, templated Orchestration Pipeline or Workspace that can be cloned and customised to accelerate setup for common industry use cases (e.g. KYC Onboarding).</dd>
+            
+            <dt>Reference / Knowledge Base</dt>
+            <dd>A dedicated sector within Parsifi where reusable network assets—like previous contracts, AcroForm Templates, or internal procedure docs—reside.</dd>
+            
+            <dt>Repeat (Loop) Step</dt>
+            <dd>A powerful Workspace node that maps an inner Agent Tool to continuously evaluate and process against an exported list of objects output from a previous step.</dd>
+            
+            <dt>Strict Mode</dt>
+            <dd>A specific constraint layer appended to a task prompt guaranteeing the AI assumes an exact verbatim, "no-hallucination, no-extrapolation" posture.</dd>
+            
+            <dt>Variable Register</dt>
+            <dd>The central nervous system of an Orchestration Pipeline. It automatically maps the JSON output keys from Extractor tools to the corresponding `{{placeholders}}` in Generator templates, eliminating the need for manual data mapping.</dd>
+            
+            <dt>Workspace</dt>
+            <dd>A fully automated, linear business logic pipeline capable of linking Categorisation, extractions, conditional branching, and loops together over a single document. For multi-document routing and template generation, see Pipeline.</dd>
+        </dl>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('glossary');
+        });
+    </script>
+</body>
+</html>

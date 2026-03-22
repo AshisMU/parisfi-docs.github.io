@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orchestration Pipelines - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>Orchestration Pipelines</span>
+        </div>
+
+        <h1>Orchestration Pipelines</h1>
+
+        <p class="text-xl text-indigo-300 font-medium mb-6">Orchestration Pipelines take document automation beyond linear workspaces, enabling multi-input, multi-output workflows with interactive visual canvas editing, human-in-the-loop review gates, and automatic variable mapping.</p>
+
+        <h2>Workspaces vs Pipelines</h2>
+        <p>While <strong>Workspaces</strong> are perfect for simple, linear processing of single documents (e.g. OCR → Extract → Categorise), <strong>Orchestration Pipelines</strong> are designed for complex, multi-document scenarios:</p>
+        
+        <table class="w-full text-left border-collapse mt-4 mb-8">
+            <thead>
+                <tr class="border-b border-white/10">
+                    <th class="py-2 px-4 text-gray-300">Feature</th>
+                    <th class="py-2 px-4 text-gray-300">Workspaces</th>
+                    <th class="py-2 px-4 text-indigo-300 font-bold">Orchestration Pipelines</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4">Input</td>
+                    <td class="py-2 px-4 text-gray-400">Single Document</td>
+                    <td class="py-2 px-4 text-indigo-200">Multiple Inputs (Documents, Text, URLs)</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4">Topology</td>
+                    <td class="py-2 px-4 text-gray-400">Linear (with basic branching)</td>
+                    <td class="py-2 px-4 text-indigo-200">Directed Acyclic Graph (DAG)</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4">Output</td>
+                    <td class="py-2 px-4 text-gray-400">JSON / Meta Data</td>
+                    <td class="py-2 px-4 text-indigo-200">Generated Documents (PDF, DOCX)</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4">Data Mapping</td>
+                    <td class="py-2 px-4 text-gray-400">Manual JSON Pathing</td>
+                    <td class="py-2 px-4 text-indigo-200">Automatic via Variable Register</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4">Human Review</td>
+                    <td class="py-2 px-4 text-gray-400">None</td>
+                    <td class="py-2 px-4 text-indigo-200">Native Review Gates</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4">Data Traceability</td>
+                    <td class="py-2 px-4 text-gray-400">Not available</td>
+                    <td class="py-2 px-4 text-indigo-200">Visual Data Lineage Map 🗺</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4">Edit Safety</td>
+                    <td class="py-2 px-4 text-gray-400">Overwrites immediately</td>
+                    <td class="py-2 px-4 text-indigo-200">Full Version History &amp; Restore</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Input Slots</h2>
+        <p>Unlike workspaces that process a single implicit document, pipelines define explicit <strong>Input Slots</strong>. A pipeline will wait until all required input slots are filled before it can be run.</p>
+        <ul>
+            <li><strong>Document</strong>: E.g. "Primary Contract" or "Identity Passport"</li>
+            <li><strong>Text Section</strong>: E.g. "Special Instructions" or "Company Context"</li>
+            <li><strong>URL Link</strong>: E.g. "Company Website"</li>
+        </ul>
+
+        <h2>Node Types</h2>
+        <p>A pipeline is composed of nodes on a canvas. There are four types of nodes:</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+            <div class="bg-indigo-900/20 border border-indigo-500/30 p-4 rounded-lg">
+                <i class="fas fa-tools text-indigo-400 text-xl mb-2"></i>
+                <h3 class="text-indigo-300 text-lg mt-0 mb-1">Extractor</h3>
+                <p class="text-sm text-gray-400 m-0">Runs an Agent Tool to pull structured data out of documents and into the Variable Register.</p>
+            </div>
+            <div class="bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg">
+                <i class="fas fa-file-alt text-blue-400 text-xl mb-2"></i>
+                <h3 class="text-blue-300 text-lg mt-0 mb-1">Generator</h3>
+                <p class="text-sm text-gray-400 m-0">Merges data from the Variable Register into a Template (DOCX/PDF) to output a new file.</p>
+            </div>
+            <div class="bg-amber-900/20 border border-amber-500/30 p-4 rounded-lg">
+                <i class="fas fa-user-check text-amber-400 text-xl mb-2"></i>
+                <h3 class="text-amber-300 text-lg mt-0 mb-1">Review Gate</h3>
+                <p class="text-sm text-gray-400 m-0">Pauses the pipeline. A human must review the extracted data and click Approve or Reject to continue.</p>
+            </div>
+            <div class="bg-emerald-900/20 border border-emerald-500/30 p-4 rounded-lg">
+                <i class="fas fa-code-branch text-emerald-400 text-xl mb-2"></i>
+                <h3 class="text-emerald-300 text-lg mt-0 mb-1">Logic Node</h3>
+                <p class="text-sm text-gray-400 m-0">Evaluates a condition (e.g. `status == APPROVED`) and halts execution along a path if false.</p>
+            </div>
+        </div>
+
+        <h2>Building Pipelines: Two Ways</h2>
+        
+        <h3>1. The Visual Canvas Editor</h3>
+        <p>For explicit control, the <strong>Data Flow Graph</strong> provides a full interactive visual editor. Click <strong>Edit Canvas</strong> to reveal the node palette. You can drag Extractors, Generators, and Review Gates onto the grid, wire them together with click-and-drag edges, and configure their underlying tools and templates right in the inspector panel.</p>
+
+        <h3>2. The Smart Wizard</h3>
+        <p>If you prefer a guided approach, the <strong>Smart Wizard</strong> asks you what input slots you need, which agent tools should run, whether you need a human review gate, and what template should be generated. It will automatically construct the underlying pipeline graph for you.</p>
+
+        <div class="callout tip" style="border-left-color:#a855f7">
+            <i class="fas fa-magic icon" style="color:#a855f7"></i>
+            <div>
+                <strong>Data Lineage Visualisation:</strong> When a pipeline is running or has completed, you can click on any node in the graph to view exactly what data went in and what data came out. This provides complete transparency for auditing.
+            </div>
+        </div>
+
+        <h2>Data Lineage Map <span style="font-size:0.6em; background:#0d3d39; color:#5eead4; padding:2px 8px; border-radius:20px; vertical-align:middle; margin-left:8px;">New</span></h2>
+        <p>The <strong>Data Lineage Map</strong> is a visual overlay on the pipeline canvas that makes the implicit variable flow completely explicit and verifiable before you run anything. Toggle it on by clicking the <strong>👁 Data Map</strong> button in the graph toolbar (visible once a pipeline is loaded).</p>
+
+        <p>When active, the overlay injects small <em>variable nodes</em> between your Extractor and Generator nodes, with dashed edges showing which variables are produced and which are consumed:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+            <div class="bg-teal-900/20 border border-teal-500/30 p-4 rounded-lg">
+                <span class="inline-block w-3 h-3 rounded-full bg-teal-900 border-2 border-teal-400 mb-2"></span>
+                <h3 class="text-teal-300 text-base mt-0 mb-1">Mapped ✓</h3>
+                <p class="text-sm text-gray-400 m-0">Variable is produced by an Extractor and consumed by a Generator. Data will flow correctly.</p>
+            </div>
+            <div class="bg-red-900/20 border border-red-500/30 p-4 rounded-lg">
+                <span class="inline-block w-3 h-3 rounded-full bg-red-950 border-2 border-red-500 mb-2"></span>
+                <h3 class="text-red-300 text-base mt-0 mb-1">Unmet ⚠</h3>
+                <p class="text-sm text-gray-400 m-0">A Generator (Template) requires this variable, but no Extractor on the canvas produces it. The output document will have a blank field.</p>
+            </div>
+            <div class="bg-orange-900/20 border border-orange-500/30 p-4 rounded-lg">
+                <span class="inline-block w-3 h-3 rounded-full bg-orange-950 border-2 border-orange-500 mb-2"></span>
+                <h3 class="text-orange-300 text-base mt-0 mb-1">Collision ⚡</h3>
+                <p class="text-sm text-gray-400 m-0">Two or more Extractor nodes produce a variable with the same name. One will overwrite the other — resolve by renaming a tool's output field.</p>
+            </div>
+        </div>
+
+        <div class="callout" style="border-left-color:#14b8a6">
+            <i class="fas fa-eye icon" style="color:#14b8a6"></i>
+            <div>The Data Map is <strong>read-only</strong> and purely visual. Toggle it off at any time to return to the standard execution-order canvas. It does not affect how the pipeline actually runs.</div>
+        </div>
+
+        <h2>Pipeline Versioning <span style="font-size:0.6em; background:#1e1a3a; color:#a78bfa; padding:2px 8px; border-radius:20px; vertical-align:middle; margin-left:8px;">New</span></h2>
+        <p>Every time you save a pipeline canvas — either via <strong>Save Canvas</strong> in the editor or when initially creating a pipeline with the Smart Wizard — Parsifi automatically saves an immutable <strong>version snapshot</strong> of the graph. This means your nodes, edges, and their configurations are never destructively overwritten.</p>
+
+        <h3>Accessing Version History</h3>
+        <p>Click the <strong>🕐 History</strong> button in the graph toolbar to open the Version History panel on the right. It displays each saved version with its version number, the date it was saved, and a short change note (e.g. &ldquo;Canvas save #3&rdquo;).</p>
+
+        <h3>Restoring a Previous Version</h3>
+        <p>Click <strong>Restore</strong> next to any historical version to load its nodes and edges back onto the canvas. This does <em>not</em> auto-save — you must review the restored graph and click <strong>Save Canvas</strong> to commit it. Saving after a restore creates a new, higher-numbered version, preserving the full history without losing any state.</p>
+
+        <div class="callout" style="border-left-color:#8b5cf6">
+            <i class="fas fa-shield-alt icon" style="color:#8b5cf6"></i>
+            <div><strong>Compliance benefit:</strong> In regulated industries, the version history provides a complete, timestamped audit log proving exactly which pipeline logic was active when a specific set of documents was processed.</div>
+        </div>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="workspaces.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> Pipelines &amp; Workspaces
+            </a>
+            <a href="variable-register.html" class="text-blue-400 hover:text-blue-300 transition decoration-none font-medium">
+                Variable Register <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('orchestration');
+            
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('sidebar-container');
+            
+            if(mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    mobileMenuBtn.innerHTML = sidebar.classList.contains('active') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

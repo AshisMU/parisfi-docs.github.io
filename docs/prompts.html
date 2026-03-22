@@ -72,7 +72,26 @@ Review the following lease agreement and extract the Tenant Name, Monthly Rent, 
                 <strong>Collection</strong>. It gathers the analysis results of every single child document and pastes
                 them into the prompt for aggregation.
             </li>
+            <li><code>{{ext_DocumentName.step_StepName}}</code>: Dynamically injects the output of a specific step from
+                a previously analyzed Document or Collection (e.g.,
+                <code>{{ext_MasterAgreement.pdf.step_Summary}}</code>). Use the "Tag Reference" helper in Workspace
+                builder to easily construct these tags.
+            </li>
         </ul>
+
+        <div class="mt-8 mb-6 relative">
+            <h3 class="mb-4">Using Cross-Document Referencing</h3>
+            <p>You can reference the results of one document directly inside another pipeline without combining them
+                into a single collection. This is incredibly powerful for complex multi-document auditing,
+                cross-referencing against Master Agreements, or dynamic pipeline execution.</p>
+            <div class="shadow-xl rounded-lg border border-white/10 p-2 bg-black/40 inline-block">
+                <img src="assets/placeholder.png"
+                    alt="[Placeholder: Screenshot of the Target Source dropdown in the Workspace Builder showing 'Another Document or Collection...' selected, with the secondary dropdowns showing a selected document and step.]"
+                    class="rounded">
+            </div>
+            <p class="text-sm text-gray-400 mt-2 italic">Select another document directly in the Workspace Builder to
+                auto-generate the correct ext_ tag.</p>
+        </div>
 
         <div class="page-nav" id="page-navigation"></div>
     </main>

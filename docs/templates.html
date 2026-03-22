@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Fill Engine - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>Template Fill Engine</span>
+        </div>
+
+        <h1>Template Fill Engine</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Automate data entry by securely binding extracted AI structured data into your physical company templates.</p>
+
+        <h2>Overview</h2>
+        <p>Parsifi can fill native document templates across dual pathways without losing formatting or triggering complex intermediate abstractions. The execution leverages a specialized <span class="badge">fill_template</span> step within a Workspace.</p>
+        
+        <div class="callout warning">
+            <i class="fas fa-file-export icon"></i>
+            <div>
+                <strong>Direct Delivery:</strong> Outputs are strictly generated in their native formats. A filled XLSX will download as an XLSX; an AcroForm PDF will download as a PDF. No awkward conversions.
+            </div>
+        </div>
+
+        <h2>Mode 1: AcroForm & Static PDFs</h2>
+        <p>Use Mode 1 when dealing with pre-authored PDF forms or legacy static visual templates.</p>
+        
+        <h3>Uploading Native Forms</h3>
+        <p>Just upload the AcroForm PDF to Parsifi's Knowledge Base. The underlying template engine automatically detects the input layout and scans for named fields (e.g. "Client_Name").</p>
+        
+        <h3>The Path 2 In-app Visual Editor</h3>
+        <p>If you upload a <strong>flat, static PDF</strong>, Parsifi ships with an integrated Form Field Editor. Open the document in the Knowledge Base viewer, activate the <strong>Edit Fields</strong> toggle, and draw AcroForm widget rectangles directly over the physical blanks in the document. Name these fields accurately, and the system permanently attaches the spatial map to the document.</p>
+        
+        <h2>Mode 2: Network Folder Templates</h2>
+        <p>Use Mode 2 for Word Documents, Excel Spreadsheets, and PowerPoint Presentations.</p>
+        <p>Instead of manually uploading each varying version of your firm's `.docx` or `.xlsx` files, place them in a designated folder on your machine.</p>
+        <ol>
+            <li>Tag physical areas in your documents using the `{{placeholder_name}}` syntax.</li>
+            <li>Configure the <strong>Template Folder Path</strong> inside Settings.</li>
+            <li>Click <strong>Scan Folder</strong> in the UI. Parsifi idempotently syncs the folder content into the Knowledge Base without storing copies in the database.</li>
+        </ol>
+        
+        <h2>Linking AI Output to Templates</h2>
+        <p>In the Workspace editor, add a <strong>Fill Template</strong> step directly after an Agent Tool extraction. The intelligent step wizard allows you to cross-reference AI JSON keys directly into the mapped template fields.</p>
+        
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('templates');
+        });
+    </script>
+</body>
+</html>

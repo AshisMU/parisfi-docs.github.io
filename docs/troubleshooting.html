@@ -64,6 +64,9 @@
             <li>Use the `{{children.analysis}}` tag instead. By summarizing the children <em>first</em> and then
                 accumulating the summaries, you compress 100,000 characters down into 5,000 highly potent characters
                 that fit effortlessly in the context window.</li>
+            <li><strong>Use Cross-Document Referencing:</strong> If you only need data from one or two specific external
+                files, reference them directly using <code>{{ext_DocumentName.step_StepName}}</code> to surgicaly inject
+                only the necessary data points rather than dumping entire collections into the prompt.</li>
         </ol>
 
 

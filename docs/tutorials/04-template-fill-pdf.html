@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 4: AcroForm PDF - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+    <main>
+        <div class="breadcrumbs">
+            <a href="../../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <a href="../tutorials.html">Tutorials</a> <i class="fas fa-chevron-right"></i>
+            <span>04 AcroForm PDF</span>
+        </div>
+
+        <h1>Tutorial 4: Template Fill (AcroForm PDF)</h1>
+        <p class="text-xl text-teal-300 font-medium mb-8">Learn how to fill standard PDF forms (AcroForms) using data extracted by Parsifi.</p>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">1</div>
+            <div>
+                <h3>Upload an AcroForm PDF</h3>
+                <p>Navigate to <strong>Templates</strong> in Parsifi.</p>
+                <p>Click <strong>Upload Template</strong> and select a PDF file that contains interactive form fields (AcroForm).</p>
+                <p>If you don't have one, search online for "sample AcroForm PDF". A common example is the US IRS W-9 form.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">2</div>
+            <div>
+                <h3>Inspect Form Fields</h3>
+                <p>Once uploaded, click the <strong>Inspect Required Fields</strong> button (eye icon) next to your PDF template.</p>
+                <p>Parsifi will extract and list every named field in the PDF. Unlike DOCX templates which use `{{placeholders}}`, PDF templates use the underlying names of the form fields themselves (e.g. `topmostSubform[0].Page1[0].f1_01_0_[0]`).</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">3</div>
+            <div>
+                <h3>Map to JSON Schema</h3>
+                <p>To fill this form automatically in a pipeline, your Agent Tool's output JSON Schema keys must exactly match the PDF form field names.</p>
+                <p>Navigate to <strong>Advanced > JSON Schemas</strong> and create a schema where the property names match the physical PDF field names.</p>
+                <p>If the PDF field name contains special characters (like brackets `[]`), you must use the exact string in your schema definition.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">4</div>
+            <div>
+                <h3>Checkboxes and Radio Buttons</h3>
+                <p>To tick a checkbox or select a radio button in a PDF, your LLM must output the specific export value defined in the PDF for that state.</p>
+                <p>Commonly, this is `"Yes"`, `"On"`, or `"1"`. If you are unsure, you may need to open the PDF in Adobe Acrobat and check the properties of the physical field to see its exact export value when checked.</p>
+            </div>
+        </div>
+
+        <div class="callout success" style="border-left-color: #14b8a6">
+            <i class="fas fa-check-circle icon" style="color: #14b8a6"></i>
+            <div>
+                <strong>Verify Success:</strong> When a pipeline executes that links your Extractor tool to this PDF Template, a new PDF will be generated with the form fields permanently flattened and filled with the extracted data.
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="03-template-fill-docx.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> Tutorial 3
+            </a>
+            <a href="05-workspace-pipeline.html" class="text-amber-400 hover:text-amber-300 transition decoration-none font-medium">
+                Tutorial 5: Workspace Pipelines <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+    <script>window.DOCS_BASE_PATH = '../';</script>
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initSidebar('tutorials'); });
+    </script>
+</body>
+</html>

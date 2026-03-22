@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variable Register - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>Variable Register</span>
+        </div>
+
+        <h1>Variable Register</h1>
+
+        <p class="text-xl text-teal-300 font-medium mb-6">The Variable Register is the central nervous system connecting your Agent Tools, Templates, and Pipelines. It ensures data flows seamlessly without manual mapping.</p>
+
+        <h2>The Problem It Solves</h2>
+        <p>In traditional automation, if an Agent Tool extracts `{"Company_Name": "Acme Corp"}`, but your template expects `{{business_name}}`, the pipeline will fail unless you write custom code to map the fields. The Variable Register eliminates this by maintaining a central dictionary of known fields.</p>
+
+        <h2>How it Works</h2>
+        <p>When an Orchestration Pipeline runs, the data flow looks like this:</p>
+        <ol>
+            <li><strong>Extraction:</strong> An Extractor node runs an Agent Tool. The JSON output items are placed directly into the pipeline's memory context using their JSON keys as the variable names.</li>
+            <li><strong>Generation:</strong> A Generator node loads a Template. It scans the template for placeholders and looks them up in the memory context.</li>
+        </ol>
+
+        <div class="callout tip" style="border-left-color:#14b8a6">
+            <i class="fas fa-lightbulb icon" style="color:#14b8a6"></i>
+            <div>
+                <strong>Zero-Configuration Mapping:</strong> As long as your Agent Tool's JSON Schema keys match the `{{placeholder}}` names in your Template, data will map automatically. You never have to manually wire fields together.
+            </div>
+        </div>
+
+        <h2>Syntax: Single vs Double Braces</h2>
+        
+        <table class="w-full text-left border-collapse my-6">
+            <thead>
+                <tr class="border-b border-white/10">
+                    <th class="py-2 px-4 text-gray-300">Syntax</th>
+                    <th class="py-2 px-4 text-gray-300">Used In</th>
+                    <th class="py-2 px-4 text-gray-300">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4 font-mono text-blue-300">{single_brace}</td>
+                    <td class="py-2 px-4 text-gray-400">Agent Tool Prompts</td>
+                    <td class="py-2 px-4 text-gray-400">Tells the AI where to inject system memory or pipeline inputs into the prompt before sending it.</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4 font-mono text-teal-300">{{double_brace}}</td>
+                    <td class="py-2 px-4 text-gray-400">Templates (DOCX, HTML)</td>
+                    <td class="py-2 px-4 text-gray-400">Tells the Generator node where to inject extracted data into the final document.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Auto-Registration</h2>
+        <p>You rarely need to create variables manually. Parsifi uses <strong>Auto-Registration</strong>:</p>
+        <ul>
+            <li>When you save an Agent Tool with `{fields}`, they are automatically registered as inputs.</li>
+            <li>When you upload a Template with `{{fields}}`, they are automatically registered as outputs.</li>
+            <li>When you define a JSON Schema for an Agent Tool, the properties are registered as pipeline variables.</li>
+        </ul>
+
+        <h2>Managing the Register</h2>
+        <p>Navigate to <strong>Orchestration &gt; Master Variables</strong> in the main app to view the Register. Here you can:</p>
+        <ul>
+            <li>See every variable used across your entire tenant.</li>
+            <li>Click on a variable to see exactly which Tools use it as an input, and which Templates use it as an output.</li>
+            <li>Spot <strong>Orphaned Variables</strong> — e.g. a Template requires `{{contract_value}}` but no Agent Tool is configured to extract it.</li>
+        </ul>
+
+        <h2>System Variables</h2>
+        <p>In addition to your own custom data, certain system variables are always available in Agent Tool prompts using <code>{single_brace}</code> syntax:</p>
+        
+        <table class="w-full text-left border-collapse my-6 bg-black/20 rounded-lg overflow-hidden">
+            <thead>
+                <tr class="border-b border-white/10 bg-black/40">
+                    <th class="py-3 px-4 text-gray-300">Variable</th>
+                    <th class="py-3 px-4 text-gray-300">Available In</th>
+                    <th class="py-3 px-4 text-gray-300">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4 font-mono text-sm">{document_text}</td>
+                    <td class="py-2 px-4 text-gray-400">Agent Tools</td>
+                    <td class="py-2 px-4 text-gray-400">The full OCR text of the document currently being processed.</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4 font-mono text-sm">{current_item}</td>
+                    <td class="py-2 px-4 text-gray-400">Workspace Repeat Nodes</td>
+                    <td class="py-2 px-4 text-gray-400">The current item being iterated over in a Repeat step loop.</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                    <td class="py-2 px-4 font-mono text-sm">{input_1}, {input_2}...</td>
+                    <td class="py-2 px-4 text-gray-400">Orchestration Pipelines</td>
+                    <td class="py-2 px-4 text-gray-400">References the slot data uploaded by the user when launching the pipeline.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="orchestration.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> Orchestration Pipelines
+            </a>
+            <a href="tutorials.html" class="text-blue-400 hover:text-blue-300 transition decoration-none font-medium">
+                Tutorials <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('variable-register');
+            
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('sidebar-container');
+            
+            if(mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    mobileMenuBtn.innerHTML = sidebar.classList.contains('active') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

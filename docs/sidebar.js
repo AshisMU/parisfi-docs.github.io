@@ -14,7 +14,8 @@ const NAVIGATION = [
             { id: "viewer", label: "Document Viewer", href: "viewer.html" },
             { id: "knowledge", label: "Knowledge Base", href: "knowledge.html" },
             { id: "collections", label: "Collections", href: "collections.html" },
-            { id: "taxonomy", label: "Taxonomy", href: "taxonomy.html" }
+            { id: "taxonomy", label: "Taxonomy", href: "taxonomy.html" },
+            { id: "audit", label: "Audit Log", href: "audit.html" }
         ]
     },
     {
@@ -22,7 +23,11 @@ const NAVIGATION = [
         items: [
             { id: "prompts", label: "Prompt Library", href: "prompts.html" },
             { id: "tools", label: "Agent Tool Factory", href: "tools.html" },
-            { id: "workspaces", label: "Pipelines & Workspaces", href: "workspaces.html" },
+            { id: "schemas", label: "JSON Schemas", href: "schemas.html" },
+            { id: "workspaces", label: "Workspaces (Linear)", href: "workspaces.html" },
+            { id: "orchestration", label: "Orchestration Pipelines", href: "orchestration.html" },
+            { id: "templates", label: "Template Fill Engine", href: "templates.html" },
+            { id: "variable-register", label: "Variable Register", href: "variable-register.html" },
             { id: "fallbacks", label: "System Fallbacks", href: "fallbacks.html" }
         ]
     },
@@ -30,7 +35,9 @@ const NAVIGATION = [
         title: "Best Practices",
         items: [
             { id: "workflows", label: "Professional Workflows", href: "workflows.html" },
-            { id: "troubleshooting", label: "Troubleshooting", href: "troubleshooting.html" }
+            { id: "troubleshooting", label: "Troubleshooting", href: "troubleshooting.html" },
+            { id: "tutorials", label: "Tutorials", href: "tutorials.html" },
+            { id: "glossary", label: "Glossary", href: "glossary.html" }
         ]
     }
 ];

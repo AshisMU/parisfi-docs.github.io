@@ -15,7 +15,8 @@
         <div class="logo">
             <i class="fa-solid fa-layer-group"></i> Parsifi
         </div>
-        <nav>
+        <button id="mobile-menu-toggle" class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        <nav id="main-nav">
             <a href="docs/index.html">Documentation</a>
             <a href="#features">Features</a>
             <a href="#showcase">Showcase</a>
@@ -187,6 +188,24 @@
             <p>&copy; 2026 Parsifi. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+            const nav = document.getElementById('main-nav');
+            if (nav.style.display === 'flex') {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+                nav.style.flexDirection = 'column';
+                nav.style.position = 'absolute';
+                nav.style.top = '100%';
+                nav.style.left = '0';
+                nav.style.right = '0';
+                nav.style.background = 'rgba(10, 10, 12, 0.95)';
+                nav.style.padding = '20px';
+                nav.style.borderBottom = '1px solid var(--border-color)';
+            }
+        });
+    </script>
 </body>
 
 </html>

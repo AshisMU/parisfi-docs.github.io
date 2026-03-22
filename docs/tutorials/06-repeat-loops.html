@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 6: Repeat Loops - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+    <main>
+        <div class="breadcrumbs">
+            <a href="../../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <a href="../tutorials.html">Tutorials</a> <i class="fas fa-chevron-right"></i>
+            <span>06 Repeat Loops</span>
+        </div>
+
+        <h1>Tutorial 6: Repeat Loops over Arrays</h1>
+        <p class="text-xl text-amber-300 font-medium mb-8">Learn how to extract a list of items (like line items in an invoice) and map an Agent Tool to run sequentially over every item in that list.</p>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">1</div>
+            <div>
+                <h3>Create a List Extraction Tool</h3>
+                <p>First, create a JSON Schema with an array property. E.g. A schema called "Line Items", with a property `items` which is an array of objects containing `description` and `amount`.</p>
+                <p>Create an Agent Tool called "Extract Line Items" that uses this schema, with the prompt: <em>"Extract all line items from the invoice into a list."</em></p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">2</div>
+            <div>
+                <h3>Create a Per-Item Analysis Tool</h3>
+                <p>Create a second Agent Tool called "Audit Line Item".</p>
+                <p>In the prompt, type: <em>"Audit this specific line item: {current_item}. Does the description sound like a legitimate business expense? Answer YES or NO with a brief reason."</em></p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">3</div>
+            <div>
+                <h3>Build the Looping Workspace</h3>
+                <p>Create a new Workspace and open the pipeline editor.</p>
+                <p><strong>Step 1:</strong> Add an Agent Tool step using the "Extract Line Items" tool.</p>
+                <p><strong>Step 2:</strong> Click <strong>Add Repeat</strong>.</p>
+                <p>In the Repeat wizard, select the `items` array from Step 1 as the target list. Select your "Audit Line Item" tool as the tool to run on each iteration.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-amber-500/20 text-amber-400 border border-amber-500">4</div>
+            <div>
+                <h3>Execute and Verify</h3>
+                <p>Using the Dashboard, run this Workspace on an invoice containing multiple line items.</p>
+                <p>Click into the execution log once complete.</p>
+            </div>
+        </div>
+
+        <div class="callout success" style="border-left-color: #f59e0b">
+            <i class="fas fa-check-circle icon" style="color: #f59e0b"></i>
+            <div>
+                <strong>Verify Success:</strong> In the execution log, you should see Step 1 extract the JSON array. Step 2 (the Repeat loop) should show multiple sub-executions — one for each item in the array — with an independent audit response for each specific line item.
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="05-workspace-pipeline.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> Tutorial 5
+            </a>
+            <a href="07-review-gate.html" class="text-indigo-400 hover:text-indigo-300 transition decoration-none font-medium">
+                Tutorial 7: Review Gates <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+    <script>window.DOCS_BASE_PATH = '../';</script>
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initSidebar('tutorials'); });
+    </script>
+</body>
+</html>

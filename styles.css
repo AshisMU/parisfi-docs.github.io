@@ -27,7 +27,10 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-weight: 700;
     line-height: 1.2;
 }
@@ -44,20 +47,43 @@ a:hover {
 
 /* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 @keyframes pulseBorder {
-    0% { border-color: rgba(138, 43, 226, 0.1); }
-    50% { border-color: rgba(138, 43, 226, 0.5); }
-    100% { border-color: rgba(138, 43, 226, 0.1); }
+    0% {
+        border-color: rgba(138, 43, 226, 0.1);
+    }
+
+    50% {
+        border-color: rgba(138, 43, 226, 0.5);
+    }
+
+    100% {
+        border-color: rgba(138, 43, 226, 0.1);
+    }
 }
 
 /* Buttons */
@@ -128,6 +154,7 @@ a:hover {
     gap: 10px;
     background: linear-gradient(135deg, #fff, #adb5bd);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -139,6 +166,15 @@ nav {
 nav a {
     font-size: 0.95rem;
     font-weight: 500;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
 /* Hero Section */
@@ -168,6 +204,7 @@ nav a {
 .highlight {
     background: linear-gradient(135deg, #8a2be2, #4facfe);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -197,7 +234,7 @@ nav a {
     position: absolute;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(138,43,226,0.3) 0%, rgba(10,10,12,0) 70%);
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.3) 0%, rgba(10, 10, 12, 0) 70%);
     border-radius: 50%;
     z-index: -1;
     filter: blur(50px);
@@ -208,7 +245,7 @@ nav a {
     max-width: 800px;
     border-radius: 12px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     animation: float 6s ease-in-out infinite;
     transform: perspective(1000px) rotateY(-10deg);
 }
@@ -224,6 +261,7 @@ nav a {
     margin-bottom: 16px;
     background: linear-gradient(135deg, #fff, #adb5bd);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -259,7 +297,7 @@ nav a {
 .feature-card:hover {
     transform: translateY(-10px);
     border-color: rgba(138, 43, 226, 0.4);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .feature-icon {
@@ -344,7 +382,7 @@ nav a {
     width: 100%;
     border-radius: 12px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     transition: transform 0.5s ease;
 }
 
@@ -369,7 +407,7 @@ nav a {
 }
 
 .use-case-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
     border: 1px solid var(--border-color);
     padding: 40px;
     border-radius: 16px;
@@ -464,7 +502,7 @@ footer {
 .footer-bottom {
     text-align: center;
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     color: #6c757d;
     font-size: 0.85rem;
 }
@@ -476,21 +514,22 @@ footer {
         text-align: center;
         padding-top: 150px;
     }
-    
+
     .hero-content {
         margin-bottom: 60px;
     }
-    
+
     .hero-actions {
         justify-content: center;
     }
-    
+
     .hero-image {
         width: 100%;
         transform: none;
     }
 
-    .showcase-item, .showcase-item.reverse {
+    .showcase-item,
+    .showcase-item.reverse {
         flex-direction: column;
         text-align: center;
         gap: 40px;
@@ -502,14 +541,23 @@ footer {
 }
 
 @media (max-width: 768px) {
-    nav {
+    #main-nav {
         display: none;
     }
-    
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .cta-button {
+        display: none;
+        /* Hide primary CTA in nav on very small screens */
+    }
+
     .hero h1 {
         font-size: 2.5rem;
     }
-    
+
     .section-header h2 {
         font-size: 2rem;
     }

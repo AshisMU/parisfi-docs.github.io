@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Tool Factory - Parsifi Documentation</title>
-    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="docs.css">
 </head>
@@ -26,62 +24,145 @@
 
         <h1>Agent Tool Factory</h1>
 
-        <p class="text-xl text-blue-300 font-medium mb-6">The Tool Factory upgrades standard prompts into persistent,
-            actionable Tools that can generate physical files (Excel, Word, CSV) based on document data.</p>
+        <p class="text-xl text-blue-300 font-medium mb-6">The Tool Factory lets you build reusable, persistent
+            extraction tools — giving the AI a precise role, structured output rules, and an optional file
+            template to fill in automatically.</p>
 
         <img src="assets/real_tools.png" alt="Parsifi Agent Tool Factory">
 
-        <h2>Anatomy of a Custom Tool</h2>
-        <p>A Tool bundles three components together:</p>
-        <ol>
-            <li><strong>System Instructions:</strong> What the AI needs to extract.</li>
-            <li><strong>Output Template (Optional):</strong> The physical Excel (.xlsx) or Word (.docx) file it will map
-                the extracted data into.</li>
-            <li><strong>Context Requirements:</strong> Whether the tool requires run-time comparison documents (e.g., a
-                "Contract Variance" tool might require the user to attach a standard Company Policy document every time
-                it runs).</li>
-        </ol>
+        <h2>Anatomy of a Tool — The 4-Layer Stack</h2>
+        <p>Every Tool is made up of four optional layers that are assembled into the final AI instruction:</p>
 
-        <h2>Enforcing Structure: JSON Intent</h2>
-        <p>For an Agent Tool to reliably populate an Excel spreadsheet, the AI <em>must</em> output a clean JSON
-            structure, not messy text. To do this, you must construct the prompt with explicit **JSON Intent**.</p>
-
-        <img src="assets/docs_crop_json_intent.png" alt="Parsifi JSON Intent tool"
-            class="my-6 shadow-xl rounded-lg border border-white/10" style="max-width: 550px;">
-
-        <p><strong>Good Practice:</strong></p>
-        <pre><code>IMPORTANT: Provide actual numerical values from the document in a structured JSON format. 
-Do not use placeholders. If data is missing, state 'Not Found'. 
-
-Example expected output:
-{
-  "InvoiceTotal": "1500.00",
-  "VendorName": "Acme Corp"
-}</code></pre>
+        <table>
+            <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>What it is</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Worker Persona</strong></td>
+                    <td>Tells the AI what role to play. Sets tone, expertise, and constraints.</td>
+                    <td><em>"You are a Senior Legal Analyst specialising in corporate filings."</em></td>
+                </tr>
+                <tr>
+                    <td><strong>2. Task Instructions</strong></td>
+                    <td>The main instruction — exactly what to extract or produce.</td>
+                    <td><em>"Extract the company name, registered agent, and list of directors."</em></td>
+                </tr>
+                <tr>
+                    <td><strong>3. JSON Schema</strong></td>
+                    <td>Defines the exact output fields. When set, the AI returns structured data.</td>
+                    <td><code>{"company_name": ..., "directors": [...]}</code></td>
+                </tr>
+                <tr>
+                    <td><strong>4. Refinement Prompt</strong></td>
+                    <td>An optional second AI pass to clean, verify, or reformat the initial output.</td>
+                    <td><em>"Remove duplicate entries and standardise date formats."</em></td>
+                </tr>
+            </tbody>
+        </table>
 
         <div class="callout tip">
-            <i class="fas fa-magic icon" style="color: #60a5fa;"></i>
+            <i class="fas fa-lightbulb icon" style="color: #facc15;"></i>
             <div>
-                <strong>JSON Helper Button:</strong> The Tool Factory editor includes a "JSON Output" button that
-                automatically injects the exact verbiage required to force the LLM into strict JSON mode.
+                Layers 1, 3, and 4 are optional. A Tool with only Layer 2 (Task Instructions) is perfectly
+                valid for simple narrative summaries. Add the other layers as your extraction needs grow.
             </div>
         </div>
 
-        <h2>Uploading and Mapping Templates</h2>
-        <p>To have Parsifi generate downloadable files for you:</p>
-        <ol>
-            <li>Navigate to the <strong>Templates</strong> tab in the Tool Factory.</li>
-            <li>Upload a blank Excel (.xlsx) or Word (.docx) file.</li>
-            <li>In your uploaded Template file, wrap your target cells or text in double braces. Example: Type
-                <code>{{InvoiceTotal}}</code> in cell B2.
-            </li>
-            <li>In your Tool Prompt, ensure the AI is instructed to output a JSON key named exactly
-                <code>"InvoiceTotal"</code>.
-            </li>
-        </ol>
+        <h2>JSON Schema — Structured Extraction</h2>
+        <p>The JSON Schema tells the AI <em>exactly</em> which fields to return. Without it, the AI writes a
+            free-form summary. With it, you get reliable, structured data that can flow into spreadsheets,
+            templates, and downstream pipeline steps.</p>
 
-        <p>When the Tool is run against a document, Parsifi extracts the JSON, maps <code>InvoiceTotal</code> to cell
-            B2, and provides the finished Excel file for download directly on the Dashboard.</p>
+        <h3>Quick-insert buttons</h3>
+        <p>The schema editor includes three scaffold buttons so you don't need to write JSON by hand:</p>
+        <ul>
+            <li><strong>+ String Field</strong> — adds a text field (names, addresses, dates as text)</li>
+            <li><strong>+ Number Field</strong> — adds a numeric field (amounts, counts)</li>
+            <li><strong>+ List Field</strong> — adds an array field (directors, line items, clauses)</li>
+        </ul>
+        <p>If the schema is empty, clicking a button creates a complete minimal schema. If you already have
+            fields, clicking again <em>merges</em> the new field into the existing schema automatically.</p>
+
+        <h3>Live validation</h3>
+        <p>As you type, the editor shows:</p>
+        <ul>
+            <li><span style="color: #22c55e; font-weight: 600;">&#10003; Valid JSON</span> — schema is correct</li>
+            <li><span style="color: #ef4444; font-weight: 600;">&#10007; Invalid JSON</span> — check for missing quotes, trailing commas, or mismatched braces</li>
+        </ul>
+        <p>Below the indicator, <strong>Fields available:</strong> lists all top-level field names extracted
+            from the schema. These are exactly the fields that appear as selectable options when you build
+            workspace variable references.</p>
+
+        <p>For a full guide to schema types (flat, nested, array) and worked examples, see
+            <a href="schemas.html">JSON Schemas</a>.</p>
+
+        <h2>Strict Mode</h2>
+        <p>Enable <strong>Strict Mode</strong> when accuracy is critical and invented data is unacceptable —
+            for example, legal documents, financial filings, or regulated forms.</p>
+
+        <p>Strict Mode adds an instruction that tells the AI:</p>
+        <blockquote>
+            <em>"Only extract values explicitly stated in the document. If a value is missing,
+            return null or 'NOT FOUND'. Do not guess, infer, or extrapolate."</em>
+        </blockquote>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Situation</th>
+                    <th>Strict Mode?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Summarising a report for reading</td>
+                    <td>Off — narrative output is expected</td>
+                </tr>
+                <tr>
+                    <td>Extracting invoice amounts for an Excel report</td>
+                    <td><strong>On</strong> — numbers must be exact</td>
+                </tr>
+                <tr>
+                    <td>Extracting director names from a legal filing</td>
+                    <td><strong>On</strong> — invented names cause compliance issues</td>
+                </tr>
+                <tr>
+                    <td>Generating a narrative business summary</td>
+                    <td>Off — some inference is helpful</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout tip">
+            <i class="fas fa-shield-alt icon" style="color: #818cf8;"></i>
+            <div>
+                <strong>Custom Strict Prompt:</strong> You can replace the default strict instruction
+                with your own text by enabling the custom toggle. Useful when the default is too
+                aggressive for a specific document type.
+            </div>
+        </div>
+
+        <h2>Output Templates</h2>
+        <p>Bind an output template (.xlsx, .docx, or .html) to have Parsifi automatically populate it with
+            extracted data. To set this up:</p>
+        <ol>
+            <li>Navigate to the <strong>Knowledge Base &rarr; Templates</strong> tab and upload a blank file.</li>
+            <li>In your template file, wrap target cells or text in double braces: <code>{{InvoiceTotal}}</code></li>
+            <li>In the Tool editor, select the template from the <strong>Output Template</strong> dropdown.</li>
+            <li>Ensure your JSON Schema has a field named exactly <code>InvoiceTotal</code>.</li>
+        </ol>
+        <p>When the Tool runs, Parsifi extracts the JSON, maps each field to its matching placeholder, and
+            makes the completed file available for download on the Dashboard.</p>
+
+        <h2>Context Requirements</h2>
+        <p>Enable <strong>Requires Context</strong> when a tool needs a comparison document supplied at run
+            time — for example, a "Contract Variance" tool that compares an uploaded contract against a
+            standard Company Policy document.</p>
 
         <div class="page-nav" id="page-navigation"></div>
     </main>

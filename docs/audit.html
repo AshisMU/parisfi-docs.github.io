@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Log - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Core Features</span> <i class="fas fa-chevron-right"></i>
+            <span>Audit Log</span>
+        </div>
+
+        <h1>Audit Log</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Gain absolute administrative oversight with Parsifi's tamper-evident, comprehensive history tracker.</p>
+
+        <h2>Ensuring Compliance</h2>
+        <p>For financial, legal, and operational institutions running Parsifi on local servers, data governance is paramount. The <strong>Audit Log</strong> continuously captures all meaningful state changes in the platform.</p>
+
+        <h2>What is Tracked?</h2>
+        <p>The system tracks mutating events. Non-mutating read events (like opening a document or viewing a setting) are omitted to minimize dashboard noise.</p>
+        <ul>
+            <li><strong>Authentication:</strong> All user logins and logouts.</li>
+            <li><strong>Document Lifecycle:</strong> Uploads, hard deletions, and image preprocessing operations (rotate, erase tool, contrast).</li>
+            <li><strong>Analysis & Extractions:</strong> Triggers for parsing, pipeline executions, step definitions used, and direct user modifications to extracted results.</li>
+            <li><strong>Agent Tools & Prompts:</strong> Authoring, deleting, or altering LLM instructions and schema configurations.</li>
+            <li><strong>System Mechanics:</strong> Application setting changes, model updates, and knowledge-base template directory scans.</li>
+        </ul>
+
+        <div class="callout info">
+            <i class="fas fa-shield-alt icon"></i>
+            <div>
+                <strong>Entity Relationships:</strong> Logs capture the user context recursively, documenting the exact timestamp, actor IP address, action signature, and affected filename natively.
+            </div>
+        </div>
+
+        <h2>Using the Viewer</h2>
+        <p>To access the viewer, click on <strong>Audit Log</strong> at the bottom of the main application sidebar navigation.</p>
+        
+        <p>You can rapidly filter past activity using the top criteria bar and click on any individual row to expand a highly detailed <code>JSON blob</code> view that encapsulates deeper operational context or the exact configurations altered during the event.</p>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('audit');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placeholder Tags & Variables - Parsifi Documentation</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        td {
+            color: rgba(255, 255, 255, 0.8);
+            vertical-align: top;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #60a5fa;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span>
+        </div>
+
+        <h1>Placeholder Tags & Variables</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">
+            A comprehensive reference for all dynamic placeholder tags and variables available in Parsifi's prompts,
+            tools, and workspaces.
+        </p>
+
+        <p>
+            Parsifi utilizes a powerful <code>VariableResolver</code> to inject dynamic data into your instructions.
+            Tags are evaluated using the <code>{{tag_name}}</code> syntax.
+        </p>
+
+        <h2>1. Document Level Content Tags</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Implementation</th>
+                    <th>Scenario</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>{{document.content}}</code></td>
+                    <td><code>VariableResolver.resolve</code></td>
+                    <td>Injects the full markdown text of the current document.</td>
+                </tr>
+                <tr>
+                    <td><code>{{document.name}}</code></td>
+                    <td><code>resolve_system_tag</code></td>
+                    <td>The original filename or display name of the document.</td>
+                </tr>
+                <tr>
+                    <td><code>{{document.id}}</code></td>
+                    <td><code>resolve_system_tag</code></td>
+                    <td>The unique database ID for the document.</td>
+                </tr>
+                <tr>
+                    <td><code>{{summary}}</code></td>
+                    <td>System Alias</td>
+                    <td>Injects the latest analysis summary (JSON) into the prompt.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. Workspace Chaining (Step Outputs)</h2>
+        <p>Workspaces allow you to pass data between steps using the <code>{{StepName.output.key}}</code> pattern.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>{{Summarize.output.total_tax}}</code></td>
+                    <td>Extracts the 'total_tax' field from a previous step named 'Summarize'.</td>
+                </tr>
+                <tr>
+                    <td><code>{{Step1.output.raw_response}}</code></td>
+                    <td>Injects the entire text response from the first step.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>3. Collection & Multi-Document Tags</h2>
+        <p>When running a prompt on a collection "Master", you can query all its children.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>{{children.content}}</code></td>
+                    <td>Merges the content of all child documents into one context.</td>
+                </tr>
+                <tr>
+                    <td><code>{{children.analysis}}</code></td>
+                    <td>Aggregates the summaries of all child documents.</td>
+                </tr>
+                <tr>
+                    <td><code>{{collection.document_count}}</code></td>
+                    <td>The total number of files in the collection.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. External Document Referencing</h2>
+        <p>Query documents that aren't even in your current project using <code>{{ext_DocName.step_StepName}}</code>.
+        </p>
+        <p>Example: <code>{{ext_Policy_2024.pdf.step_Analysis.output.limit}}</code> pulls the 'limit' field from the
+            'Analysis' result of 'Policy_2024.pdf'.</p>
+
+        <h2>5. Repeat Step — Loop Variable Tags</h2>
+        <p>When a <strong>Repeat</strong> step runs an inner Agent Tool once per list item, the current item is injected into the inner tool's prompt as a special tag.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>{{current_item}}</code></td>
+                    <td>Default loop variable. Resolves to the current list item (string, number, or serialized object) for this iteration of the Repeat step.</td>
+                </tr>
+                <tr>
+                    <td><code>{{your_custom_name}}</code></td>
+                    <td>If you set a custom <strong>Loop Variable Name</strong> in the Repeat wizard's Advanced section, use that name instead. For example, if you set the loop variable to <code>current_director</code>, use <code>{{current_director}}</code> in the inner tool's prompt.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout info">
+            <i class="fas fa-redo icon"></i>
+            <div>
+                <strong>How it works:</strong> Each loop iteration injects the current item as a custom variable into the inner step before execution. The inner tool's prompt is re-rendered fresh for every item in the list, so each run is fully independent.
+                See <a href="workspaces.html">Pipelines &amp; Workspaces</a> for a step-by-step guide to configuring Repeat steps.
+            </div>
+        </div>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('placeholders');
+        });
+    </script>
+</body>
+
+</html>

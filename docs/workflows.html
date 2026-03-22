@@ -24,7 +24,7 @@
             <span>Professional Workflows</span>
         </div>
 
-        <h1>Professional Workflows & Best Practices</h1>
+        <h1>Professional Workflows &amp; Best Practices</h1>
 
         <p class="text-xl text-blue-300 font-medium mb-6">Learn how to combine Parsifi's distinct features into
             powerful, end-to-end automated pipelines for common professional scenarios.</p>
@@ -36,22 +36,40 @@
         <ol>
             <li><strong>Setup Taxonomy:</strong> Create an "Invoice" category with the keyword "Total Amount Due".</li>
             <li><strong>Create Tool:</strong> Build an Agent Tool named "Extract Invoice Data". Write a prompt
-                emphasizing <em>JSON Intent</em> (e.g., extract `VendorName` and `Total`). Upload an Excel template that
-                maps `{{VendorName}}` to cell A1.</li>
+                emphasizing <em>JSON Intent</em> (e.g., extract <code>VendorName</code> and <code>Total</code>). Upload an Excel template that
+                maps <code>{{VendorName}}</code> to cell A1.</li>
             <li><strong>Build Workspace:</strong> Create a Workspace named "Invoice Pipeline".
                 <ul>
                     <li>Step 1: Auto-Categorize</li>
-                    <li>Step 2 (Conditional): Run Tool "Extract Invoice Data" <em>only if</em> category is "Invoice".
-                    </li>
+                    <li>Step 2 (Agent Tool): Run "Extract Invoice Data"</li>
+                    <li>Step 3 (Branch 🔀): Route on category — YES path if "Invoice", NO path otherwise</li>
                 </ul>
             </li>
             <li><strong>Execution:</strong> On the Dashboard, drag 50 scanned PDFs into the upload modal, select "Vision
                 VLM Processing" (since they are scans), and select the "Invoice Pipeline" workspace. Press Start.</li>
             <li><strong>Result:</strong> Parsifi will parse all 50 images, verify which ones are invoices, extract the
-                data, and generate 50 identical Excel sheets ready for download.</li>
+                data, and generate Excel sheets only for confirmed invoices.</li>
         </ol>
 
-        <h2>Use Case 2: Resume Screening & Candidate Comparison</h2>
+        <h2>Use Case 2: Corporate Filing — Per-Director KYC</h2>
+        <p><strong>Goal:</strong> Extract a list of directors from a corporate filing and run a KYC compliance check on each one automatically.</p>
+
+        <ol>
+            <li><strong>Create Extraction Tool:</strong> Build an Agent Tool named "Extract Directors" with a JSON Schema that includes a <code>directors</code> array field (each item an object with <code>name</code> and <code>id_number</code> fields).</li>
+            <li><strong>Create KYC Tool:</strong> Build a second Agent Tool named "Director KYC". In the prompt, reference the current director via <code>{{current_director}}</code>.</li>
+            <li><strong>Build Workspace:</strong> Create a Workspace named "Corporate KYC Pipeline".
+                <ul>
+                    <li>Step 1: Auto-Categorize</li>
+                    <li>Step 2 (Agent Tool): Extract Directors</li>
+                    <li>Step 3 (Branch 🔀): Route on entity type — YES path if "Corporate", NO path for individuals</li>
+                    <li>Step 4 (Repeat 🔁): For each director in the <code>directors</code> list, run "Director KYC"</li>
+                </ul>
+            </li>
+            <li><strong>Run:</strong> Upload a corporate filing document and select the workspace.</li>
+            <li><strong>Result:</strong> Parsifi extracts all directors, routes the document as corporate, and runs the KYC tool once per director — automatically. Results are stored as <code>Director KYC_item_0</code>, <code>Director KYC_item_1</code>, etc.</li>
+        </ol>
+
+        <h2>Use Case 3: Resume Screening &amp; Candidate Comparison</h2>
         <p><strong>Goal:</strong> Summarize 100 applicant resumes and aggregate the best candidates for a specific job
             description.</p>
 
@@ -64,8 +82,7 @@
             </li>
             <li><strong>Execute:</strong> Go to Dashboard. Upload all 100 PDF resumes using standard OCR (since text is
                 easily readable). Select all 100 documents. Click <strong>Run Workspace</strong> from the bulk action
-                bar, select your prompt, and select the Job
-                Description from the Context Dropdown.</li>
+                bar, select your prompt, and select the Job Description from the Context Dropdown.</li>
             <li><strong>Aggregate:</strong> Once done, add the top 10 candidates to a Collection named "Top Candidates".
                 Run a final Workspace command on the Collection using the <code>{{children.analysis}}</code> tag:
                 <code>"Summarize the pros and cons of these top 10 candidates into a single executive summary."</code>
@@ -73,7 +90,7 @@
         </ol>
 
 
-        <h2>Use Case 3: Contract Variance Analysis</h2>
+        <h2>Use Case 4: Contract Variance Analysis</h2>
         <p><strong>Goal:</strong> Detect clauses in a 200-page vendor contract that violate your company's standard
             policy.</p>
 
@@ -88,6 +105,13 @@
                 your "Find Policy Violations" prompt using the Vendor Policy as Context. The result is instant and
                 highly accurate because the LLM wasn't distracted by 180 pages of definitions.</li>
         </ol>
+
+        <div class="callout info">
+            <i class="fas fa-lightbulb icon"></i>
+            <div>
+                <strong>Tip — Order your steps carefully:</strong> Branch and Repeat steps must come <em>after</em> the steps whose output they reference. Use the ▲ ▼ reorder buttons in the Workspace editor to adjust step order without deleting and recreating them.
+            </div>
+        </div>
 
         <div class="page-nav" id="page-navigation"></div>
     </main>

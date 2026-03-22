@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 1: First Analysis - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+    <main>
+        <div class="breadcrumbs">
+            <a href="../../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <a href="../tutorials.html">Tutorials</a> <i class="fas fa-chevron-right"></i>
+            <span>01 First Analysis</span>
+        </div>
+
+        <h1>Tutorial 1: First Document Analysis</h1>
+        <p class="text-xl text-blue-300 font-medium mb-8">Learn the absolute basics of Parsifi: uploading a document, running OCR, and extracting information using a simple prompt.</p>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">1</div>
+            <div>
+                <h3>Upload a Document</h3>
+                <p>Navigate to the <strong>Dashboard</strong>. Drag and drop any PDF document (like an invoice or a news article) into the upload zone.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">2</div>
+            <div>
+                <h3>Verify OCR</h3>
+                <p>Once uploaded, click on the document in the Recent Uploads list. You will be taken to the <strong>Document Viewer</strong>.</p>
+                <p>Toggle from the "Original PDF" view to the "Raw Text" view. Parsifi has automatically run the document through IBM Docling to convert it to Markdown.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-blue-500/20 text-blue-400 border border-blue-500">3</div>
+            <div>
+                <h3>Run an Analysis</h3>
+                <p>In the right-hand panel of the Document Viewer, find the <strong>Analysis</strong> tab.</p>
+                <p>Type a natural language question in the prompt box, for example: <em>"Summarise this document in three bullet points."</em></p>
+                <p>Click <strong>Run Analysis</strong>.</p>
+            </div>
+        </div>
+
+        <div class="callout success">
+            <i class="fas fa-check-circle icon"></i>
+            <div>
+                <strong>Verify Success:</strong> The LLM should stream a response back into the chat window, accurately summarising the content of your uploaded document based on the prompt.
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="../tutorials.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> All Tutorials
+            </a>
+            <a href="02-agent-tool-json.html" class="text-blue-400 hover:text-blue-300 transition decoration-none font-medium">
+                Tutorial 2: Strict JSON Tools <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+    <script>
+        // Adjust basePath for nested directory
+        window.DOCS_BASE_PATH = '../';
+    </script>
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('tutorials');
+        });
+    </script>
+</body>
+</html>

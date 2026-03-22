@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipelines & Workspaces - Parsifi Documentation</title>
+    <title>Pipelines &amp; Workspaces - Parsifi Documentation</title>
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -24,62 +24,104 @@
             <span>Workspaces</span>
         </div>
 
-        <h1>Pipelines & Workspaces</h1>
+        <h1>Pipelines &amp; Workspaces</h1>
 
         <p class="text-xl text-blue-300 font-medium mb-6">Workspaces allow you to chain multiple automated steps
-            together, passing the output of one step into the input of the next to create complex workflows.</p>
+            together into a seamless, intelligent document pipeline — including conditional routing and per-item loops.</p>
 
-        <img src="assets/workspaces.png" alt="Parsifi Pipelines and Workspaces"
-            class="rounded-xl border border-white/10 shadow-lg mx-auto mb-8 max-w-full bg-[#0f172a]">
+        <div class="callout tip" style="border-left-color:#3b82f6">
+            <i class="fas fa-info-circle icon" style="color:#3b82f6"></i>
+            <div>
+                <strong>Workspaces vs Orchestration Pipelines:</strong> Workspaces are designed for fast, linear processing of single documents (e.g. Auto-Categorise → Extract → Branch). If you need to combine multiple documents, generate PDFs/Word docs from templates, or insert human-in-the-loop review gates, use <a href="orchestration.html" class="text-blue-400 underline">Orchestration Pipelines</a> instead.
+            </div>
+        </div>
 
-        <h2>Chaining Prompts and Tools</h2>
-
-        <img src="assets/create_workspace.png" alt="Parsifi Pipelines and Workspaces"
-            class="rounded-xl border border-white/10 shadow-lg mx-auto mb-8 max-w-2xl bg-[#0f172a]">
-
-        <p>Instead of running a single prompt or a single tool, a Workspace is built out of sequential
-            <strong>Steps</strong>. You build these in the Workspace editor.
-        </p>
-
+        <h2>Step Types</h2>
+        <p>A Workspace is built out of sequential <strong>Steps</strong>. Each step can be one of four types:</p>
         <ul>
-            <li><strong>Auto-Categorize Step:</strong> Instantly tags the document using Taxonomy keywords.</li>
-            <li><strong>Analysis Step:</strong> Runs an LLM prompt against the document text.</li>
-            <li><strong>Agent Tool Step:</strong> Executes a Custom Tool, taking the results and mapping them to an
-                Excel Template.</li>
+            <li><strong>Auto-Categorize</strong>: Instantly tags the document using the system taxonomy. Runs before all other steps when enabled.</li>
+            <li><strong>Analysis</strong>: Runs an LLM prompt from your library against the document.</li>
+            <li><strong>Agent Tool</strong>: Executes a specialized extraction tool with an optional JSON schema, template, and guardrails.</li>
+            <li><strong>Branch</strong> <span style="color:#f59e0b">🔀</span>: Routes the pipeline to a YES path or a NO path based on a condition — no code required.</li>
+            <li><strong>Repeat</strong> <span style="color:#14b8a6">🔁</span>: Runs an Agent Tool once for each item in a list extracted by a previous step.</li>
         </ul>
 
-        <p>You can drag and drop these steps into any order. When you select a Workspace during a document upload (or
-            from the Dashboard), Parsifi will execute every step automatically.</p>
+        <h2>Building a Pipeline</h2>
+        <p>Steps are added and reordered visually in the Workspace editor:</p>
+        <ol>
+            <li>Click <strong>+ New Workspace</strong> and give it a name.</li>
+            <li>Use the toolbar buttons — <em>Analysis</em>, <em>Agent Tool</em>, <em>Branch</em>, <em>Repeat</em> — to add steps.</li>
+            <li>Use the <strong>▲ ▼</strong> arrows on each step card to reorder. Order matters: Branch and Repeat steps must come after the steps whose output they reference.</li>
+            <li>Click the <strong>✎ pencil</strong> icon on a Branch or Repeat card to re-open the configuration wizard and edit it.</li>
+            <li>Click <strong>Save Pipeline</strong> when done.</li>
+        </ol>
 
-        <h2>Referencing Previous Steps</h2>
-        <p>The true power of pipelines relies on the chaining tags.</p>
+        <h2>Branch Step — Conditional Routing</h2>
+        <p>A Branch step evaluates a condition and routes the remaining pipeline to one of two paths:</p>
+        <ul>
+            <li><strong>YES path</strong>: steps that run when the condition is <em>true</em>.</li>
+            <li><strong>NO path</strong>: steps that run when the condition is <em>false</em>.</li>
+        </ul>
+        <p>The Branch wizard lets you build conditions in plain language — no code needed:</p>
+        <ul>
+            <li><em>Document category is / contains …</em> — route based on Auto-Categorisation result</li>
+            <li><em>Extracted field from a prior step equals / contains …</em> — route based on what a tool found</li>
+        </ul>
+        <p>An <strong>Advanced</strong> toggle reveals the underlying Jinja2 expression for power users who want full control.</p>
 
-        <p>If Step 1 is named <strong>"Summarize"</strong> (which extracts the `total_amount`), Step 2 does not need to
-            read the entire document again to find that number. Instead, Step 2 can inject the result from Step 1
-            directly into its prompt using the following syntax:</p>
+        <div class="callout info" style="border-left-color:#f59e0b">
+            <i class="fas fa-code-branch icon" style="color:#f59e0b"></i>
+            <div>
+                <strong>Safe by default:</strong> If the condition cannot be evaluated (for example, the referenced field is missing or the prior step hasn't run), the Branch defaults to the <em>NO</em> path and the pipeline continues without error.
+            </div>
+        </div>
 
-        <pre><code>Previous Output: {{Summarize.output.total_amount}}
-Based on this total amount, calculate the quarterly burn rate.</code></pre>
+        <h2>Repeat Step — Per-Item Loops</h2>
+        <p>A Repeat step takes a list produced by a previous Agent Tool and runs another tool once for each item in that list. This is ideal for:</p>
+        <ul>
+            <li>Running a KYC check on every director extracted from a corporate filing</li>
+            <li>Scoring each line item in an invoice against a compliance rule</li>
+            <li>Generating a report card for each candidate listed in a shortlist</li>
+        </ul>
+        <p>The Repeat wizard automatically discovers array fields from the prior step's JSON Schema, so you never need to write an expression manually. An <strong>Advanced</strong> toggle exposes the <code>iterate_over</code> expression for custom use.</p>
+        <p>Inside the looping tool's prompt, reference the current item with <code>{{current_item}}</code> (or a custom loop variable name you define).</p>
+
+        <div class="callout info" style="border-left-color:#14b8a6">
+            <i class="fas fa-redo icon" style="color:#14b8a6"></i>
+            <div>
+                <strong>Safe by default:</strong> If the list resolves to something that isn't a list (null, string, etc.), the Repeat step runs 0 iterations and the pipeline continues without error.
+            </div>
+        </div>
+
+        <h2>Pipeline Flow Diagram</h2>
+        <p>When a pipeline contains Branch or Repeat steps, a read-only <strong>Pipeline Flow</strong> diagram automatically appears below the step list in the editor. This gives you a clear visual overview of the pipeline topology before saving.</p>
+
+        <h2>Input &amp; Target Source Logic</h2>
+        <p>For Analysis and Agent Tool steps, you can override the <strong>Target Source</strong> — the data the step processes:</p>
+        <ul>
+            <li><strong>Original Document (Default)</strong>: process the document's OCR content directly.</li>
+            <li><strong>Previous Step Output</strong>: feed the text output of the preceding step as this step's input.</li>
+            <li><strong>Named Step</strong>: reference any prior step by name for chained processing.</li>
+        </ul>
+
+        <h2>Variable Chaining</h2>
+        <p>Use <code>{{Step Name.output}}</code> in a step's variable value to inject the full text output of a preceding step. The schema-aware variable helper popup makes this easy — it shows individual field names from the tool's JSON Schema so you can reference exact fields without typing.</p>
+
+        <h2>Automated Re-aggregation</h2>
+        <p>When you run a workspace on a document within a collection, Parsifi automatically triggers a
+            re-aggregation of the collection's results, ensuring your project-level dashboard is always up to date.
+        </p>
+
+        <h2>Database Storage & Resiliency</h2>
+        <p>All Workspace definitions are stored securely in the Parsifi application SQLite database, keeping your data entirely local and protected from accidental flat-file deletion. If migrating datasets, an idempotent importer safely attempts to restore pipelines from legacy `workspaces.json.bak` configuration backups.</p>
 
         <div class="callout warning">
             <i class="fas fa-exclamation-triangle icon"></i>
             <div>
-                <strong>Spelling Matters:</strong> When referencing previous outputs, the syntax is strictly
-                <code>{{StepName.output.key}}</code>. Ensure your step name contains no illegal characters if you plan
-                to reference it.
+                <strong>Reliability Engine:</strong> Every Workspace execution is backed by Parsifi's Reliability
+                Engine, featuring automated retries and JSON repair for maximum data integrity.
             </div>
         </div>
-
-        <h2>Custom Variables</h2>
-        <p>Workspaces support global custom variables. When you create a Workspace, you can define variables like
-            <code>{{target_company}}</code>.
-        </p>
-
-        <p>When you run the Workspace on the Dashboard, a modal will pop up asking for the value of
-            <code>target_company</code>. Parsifi will then inject this manual value into every prompt and every step
-            within the pipeline, allowing you to use a single workspace pipeline for dynamic, on-demand queries.
-        </p>
-
 
         <div class="page-nav" id="page-navigation"></div>
     </main>

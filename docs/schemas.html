@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Schemas - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Advanced Capabilities</span> <i class="fas fa-chevron-right"></i>
+            <span>JSON Schemas</span>
+        </div>
+
+        <h1>JSON Schemas</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">JSON Schemas are the key to turning AI output from
+            free-form text into reliable, structured data — ready to populate reports, spreadsheets, and
+            downstream pipeline steps.</p>
+
+        <h2>What is a JSON Schema?</h2>
+        <p>A JSON Schema is a simple description of what fields you expect the AI to extract. When you define one
+            on a Tool or Prompt, Parsifi instructs the AI to return exactly those fields — nothing more, nothing
+            less. Think of it as a form you hand to the AI and say: <em>"Fill in these blanks."</em></p>
+
+        <div class="callout tip">
+            <i class="fas fa-lightbulb icon" style="color: #facc15;"></i>
+            <div>
+                <strong>No schema?</strong> That's fine too. Without a schema, the AI returns a narrative
+                summary — useful for reading, but harder to feed into a spreadsheet or a downstream step.
+            </div>
+        </div>
+
+        <h2>When to Use a Schema</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Goal</th>
+                    <th>Use a schema?</th>
+                    <th>Why</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Read a summary of a document</td>
+                    <td>No</td>
+                    <td>Free-form text is fine for reading</td>
+                </tr>
+                <tr>
+                    <td>Populate an Excel report</td>
+                    <td><strong>Yes</strong></td>
+                    <td>Each schema field maps to a cell</td>
+                </tr>
+                <tr>
+                    <td>Chain step output into the next step</td>
+                    <td><strong>Yes</strong></td>
+                    <td>Schema fields appear in the variable helper</td>
+                </tr>
+                <tr>
+                    <td>Extract a list of items (directors, line items)</td>
+                    <td><strong>Yes — use an array field</strong></td>
+                    <td>Required for Repeat steps (Phase 1)</td>
+                </tr>
+                <tr>
+                    <td>Prevent the AI from guessing/inventing data</td>
+                    <td><strong>Yes + Strict Mode</strong></td>
+                    <td>Schema + Strict = verbatim extraction only</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Three Schema Types</h2>
+
+        <h3>1. Flat Schema — simple fields</h3>
+        <p>Use this for straightforward documents where each piece of information is a single value.</p>
+        <p><strong>Example: Invoice extraction</strong></p>
+        <pre><code>{
+  "type": "object",
+  "properties": {
+    "invoice_number": { "type": "string" },
+    "vendor_name":    { "type": "string" },
+    "invoice_date":   { "type": "string" },
+    "total_amount":   { "type": "number" }
+  }
+}</code></pre>
+        <p>The AI will return:</p>
+        <pre><code>{
+  "invoice_number": "INV-2024-001",
+  "vendor_name":    "Acme Corp",
+  "invoice_date":   "2024-03-14",
+  "total_amount":   1500.00
+}</code></pre>
+
+        <h3>2. Nested Schema — grouped fields</h3>
+        <p>Use this when some fields logically belong together, like a registered agent's name and address.</p>
+        <p><strong>Example: Company registration</strong></p>
+        <pre><code>{
+  "type": "object",
+  "properties": {
+    "company_name":  { "type": "string" },
+    "entity_type":   { "type": "string" },
+    "registered_agent": {
+      "type": "object",
+      "properties": {
+        "name":    { "type": "string" },
+        "address": { "type": "string" }
+      }
+    }
+  }
+}</code></pre>
+        <p>In the variable helper, <code>registered_agent</code> appears as a single option. To access a
+            sub-field, reference it in your prompt by name (e.g. <em>"Extract the registered agent's name
+            separately"</em>).</p>
+
+        <h3>3. Array Schema — lists of items</h3>
+        <p>Use this when a document contains a repeating list — like multiple directors, line items, or
+            clauses. Array fields are marked <strong>(list)</strong> in the variable helper and are
+            required for Repeat steps.</p>
+        <p><strong>Example: Board of directors</strong></p>
+        <pre><code>{
+  "type": "object",
+  "properties": {
+    "company_name": { "type": "string" },
+    "directors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name":      { "type": "string" },
+          "role":      { "type": "string" },
+          "id_number": { "type": "string" }
+        }
+      }
+    }
+  }
+}</code></pre>
+
+        <div class="callout warning">
+            <i class="fas fa-exclamation-triangle icon" style="color: #f59e0b;"></i>
+            <div>
+                <strong>Arrays and Repeat Steps:</strong> A Repeat step loops over an array field. For the
+                loop to work, the feeding tool <em>must</em> have a JSON schema with the target field typed
+                as <code>"type": "array"</code>. Without this, the AI returns text and the loop has nothing
+                to iterate over.
+            </div>
+        </div>
+
+        <h2>How to Add a Schema in the Tool Editor</h2>
+        <ol>
+            <li>Go to <strong>Tools</strong> in the top navigation.</li>
+            <li>Select or create a tool.</li>
+            <li>Scroll to the <strong>JSON Schema [Optional]</strong> section.</li>
+            <li>Either:
+                <ul>
+                    <li>Type or paste your schema directly, <em>or</em></li>
+                    <li>Click <strong>+ String Field</strong>, <strong>+ Number Field</strong>, or
+                        <strong>+ List Field</strong> to scaffold one quickly.</li>
+                </ul>
+            </li>
+            <li>The editor shows <span style="color: #22c55e;">✓ Valid JSON</span> or
+                <span style="color: #ef4444;">✗ Invalid JSON</span> as you type.</li>
+            <li>Once valid, <strong>Fields available:</strong> lists all top-level field names extracted from
+                the schema — these are the fields that will appear in the workspace variable helper.</li>
+            <li>Click <strong>Save</strong>.</li>
+        </ol>
+
+        <div class="callout tip">
+            <i class="fas fa-magic icon" style="color: #60a5fa;"></i>
+            <div>
+                <strong>Quick-insert buttons:</strong> Start from scratch? Click <strong>+ String Field</strong>
+                to get a complete valid schema with one string field. Add more fields by clicking again —
+                Parsifi merges them into the existing schema automatically.
+            </div>
+        </div>
+
+        <h2>Schema + Strict Mode</h2>
+        <p>Enabling <strong>Strict Mode</strong> alongside a JSON Schema gives you the highest reliability
+            for data extraction. The combination tells the AI:</p>
+        <blockquote>
+            <em>"Return exactly these fields. If a value is not explicitly stated in the document, return
+            null — do not guess."</em>
+        </blockquote>
+        <p>Use this for regulated documents, legal filings, or any extraction where invented data is
+            unacceptable.</p>
+
+        <h2>Common Mistakes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mistake</th>
+                    <th>Fix</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Schema saved but variable helper still shows "No schema"</td>
+                    <td>Make sure the tool is saved first, then re-open/select it to refresh the helper</td>
+                </tr>
+                <tr>
+                    <td>JSON schema shows ✗ Invalid</td>
+                    <td>Check for trailing commas, missing quotes around field names, or mismatched braces</td>
+                </tr>
+                <tr>
+                    <td>Array field not showing in Repeat step picker</td>
+                    <td>The field must be typed as <code>"type": "array"</code> — not just a string containing a list</td>
+                </tr>
+                <tr>
+                    <td>AI returns extra fields not in schema</td>
+                    <td>Enable <strong>Strict Mode</strong> to constrain output to schema fields only</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Related Features</h2>
+        <ul>
+            <li><a href="tools.html">Agent Tool Factory</a> — where schemas are defined</li>
+            <li><a href="workspaces.html">Pipelines &amp; Workspaces</a> — where schema fields appear in the variable helper</li>
+            <li><a href="placeholders.html">Placeholders &amp; Tags</a> — how `{{field_name}}` tokens work in prompts</li>
+        </ul>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('schemas');
+        });
+    </script>
+</body>
+
+</html>

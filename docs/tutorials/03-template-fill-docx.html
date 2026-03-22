@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 3: DOCX Templates - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+    <main>
+        <div class="breadcrumbs">
+            <a href="../../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <a href="../tutorials.html">Tutorials</a> <i class="fas fa-chevron-right"></i>
+            <span>03 DOCX Templates</span>
+        </div>
+
+        <h1>Tutorial 3: Template Fill (DOCX)</h1>
+        <p class="text-xl text-teal-300 font-medium mb-8">Learn how to map extracted JSON data into a Microsoft Word document using Jinja2 curly brace placeholders.</p>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">1</div>
+            <div>
+                <h3>Prepare the Word Document</h3>
+                <p>Create a simple Word document on your computer.</p>
+                <p>Type: <em>"This invoice is for customer {{customer_name}} and the total is ${{total_amount}}."</em></p>
+                <p>Save the file as <code>invoice_summary.docx</code>.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">2</div>
+            <div>
+                <h3>Upload the Template</h3>
+                <p>Navigate to <strong>Templates</strong> in Parsifi.</p>
+                <p>Click <strong>Upload Template</strong> and select your <code>invoice_summary.docx</code> file.</p>
+                <p>Once uploaded, click the <strong>Inspect Required Fields</strong> button (eye icon) next to it. Parsifi will scan the document and list <code>customer_name</code> and <code>total_amount</code> as required variables automatically.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <div class="step-number bg-teal-500/20 text-teal-400 border border-teal-500">3</div>
+            <div>
+                <h3>Run a Test Fill</h3>
+                <p>On the Templates page, click the <strong>Test Fill</strong> button (play icon) next to your template.</p>
+                <p>A modal will appear asking for the values. Enter "Acme Corp" for customer_name and "500" for total_amount.</p>
+                <p>Click <strong>Generate Document</strong>. A new completed `.docx` file will be generated and downloaded to your browser.</p>
+            </div>
+        </div>
+
+        <div class="callout success" style="border-left-color: #14b8a6">
+            <i class="fas fa-check-circle icon" style="color: #14b8a6"></i>
+            <div>
+                <strong>Verify Success:</strong> Open the downloaded Word document. The curly brace placeholders will be completely gone, replaced perfectly by the text you entered, retaining all original Word formatting.
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+            <a href="02-agent-tool-json.html" class="text-gray-400 hover:text-white transition decoration-none">
+                <i class="fas fa-arrow-left mr-2"></i> Tutorial 2
+            </a>
+            <a href="04-template-fill-pdf.html" class="text-teal-400 hover:text-teal-300 transition decoration-none font-medium">
+                Tutorial 4: AcroForm PDF Templates <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </main>
+    <script>window.DOCS_BASE_PATH = '../';</script>
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initSidebar('tutorials'); });
+    </script>
+</body>
+</html>
