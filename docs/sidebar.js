@@ -15,7 +15,8 @@ const NAVIGATION = [
             { id: "knowledge", label: "Knowledge Base", href: "knowledge.html" },
             { id: "collections", label: "Collections", href: "collections.html" },
             { id: "taxonomy", label: "Taxonomy", href: "taxonomy.html" },
-            { id: "audit", label: "Audit Log", href: "audit.html" }
+            { id: "audit", label: "Audit Log", href: "audit.html" },
+            { id: "activity-log", label: "Activity Log", href: "activity-log.html" }
         ]
     },
     {

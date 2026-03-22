@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipelines &amp; Workspaces - Parsifi Documentation</title>
+    <title>Workspaces (Linear) - Parsifi Documentation</title>
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -24,7 +24,7 @@
             <span>Workspaces</span>
         </div>
 
-        <h1>Pipelines &amp; Workspaces</h1>
+        <h1>Workspaces (Linear)</h1>
 
         <p class="text-xl text-blue-300 font-medium mb-6">Workspaces allow you to chain multiple automated steps
             together into a seamless, intelligent document pipeline — including conditional routing and per-item loops.</p>
@@ -46,7 +46,7 @@
             <li><strong>Repeat</strong> <span style="color:#14b8a6">🔁</span>: Runs an Agent Tool once for each item in a list extracted by a previous step.</li>
         </ul>
 
-        <h2>Building a Pipeline</h2>
+        <h2>Building a Workspace</h2>
         <p>Steps are added and reordered visually in the Workspace editor:</p>
         <img src="assets/feature_workspaces.png" alt="Parsifi Workspaces Linear Setup" class="mt-4 mb-6 rounded-lg shadow-xl shadow-black/50 border border-white/10" style="max-height: 400px; display: block;">
         <ol>
@@ -54,7 +54,7 @@
             <li>Use the toolbar buttons — <em>Analysis</em>, <em>Agent Tool</em>, <em>Branch</em>, <em>Repeat</em> — to add steps.</li>
             <li>Use the <strong>▲ ▼</strong> arrows on each step card to reorder. Order matters: Branch and Repeat steps must come after the steps whose output they reference.</li>
             <li>Click the <strong>✎ pencil</strong> icon on a Branch or Repeat card to re-open the configuration wizard and edit it.</li>
-            <li>Click <strong>Save Pipeline</strong> when done.</li>
+            <li>Click <strong>Save Workspace</strong> when done.</li>
         </ol>
         
         <img src="assets/feature_workspaces_setup.png" alt="Parsifi Workspaces Setup Modal" class="mt-4 mb-6 rounded-lg shadow-xl shadow-black/50 border border-white/10" style="max-height: 400px; display: block;">
@@ -96,8 +96,8 @@
             </div>
         </div>
 
-        <h2>Pipeline Flow Diagram</h2>
-        <p>When a pipeline contains Branch or Repeat steps, a read-only <strong>Pipeline Flow</strong> diagram automatically appears below the step list in the editor. This gives you a clear visual overview of the pipeline topology before saving.</p>
+        <h2>Workspace Flow Diagram</h2>
+        <p>When a workspace contains Branch or Repeat steps, a read-only <strong>Workspace Flow</strong> diagram automatically appears below the step list in the editor. This gives you a clear visual overview of the topology before saving.</p>
 
         <h2>Input &amp; Target Source Logic</h2>
         <p>For Analysis and Agent Tool steps, you can override the <strong>Target Source</strong> — the data the step processes:</p>

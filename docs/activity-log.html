@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Log - Parsifi Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <nav id="sidebar-container"></nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a> <i class="fas fa-chevron-right"></i>
+            <span>Core Features</span> <i class="fas fa-chevron-right"></i>
+            <span>Activity Log</span>
+        </div>
+
+        <h1>Activity Log</h1>
+
+        <p class="text-xl text-blue-300 font-medium mb-6">Track every document processing job — real-time status, duration, type, and workspace — all in one filterable table.</p>
+
+        <img src="assets/feature_activity_log.png" alt="Parsifi Activity Log showing job history" class="mt-4 mb-6 rounded-lg shadow-xl shadow-black/50 border border-white/10" style="max-height: 450px; display: block;">
+
+        <h2>What is the Activity Log?</h2>
+        <p>The Activity Log is a live, searchable record of every background job that Parsifi has run or is currently running. Unlike the Audit Log (which tracks user actions and data mutations), the Activity Log is specifically focused on <strong>processing jobs</strong> — OCR runs, workspace analysis steps, and pipeline executions.</p>
+
+        <div class="callout tip" style="border-left-color:#3b82f6">
+            <i class="fas fa-info-circle icon" style="color:#3b82f6"></i>
+            <div>
+                <strong>Activity Log vs. Audit Log:</strong> Use the <strong>Activity Log</strong> to monitor processing performance (duration, status, failures). Use the <strong>Audit Log</strong> to understand <em>who changed what</em> in the system. Both are accessible from the main sidebar.
+            </div>
+        </div>
+
+        <h2>Job Columns Explained</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>ID</strong></td>
+                    <td>A sequential system ID uniquely identifying the job. Useful when reporting issues.</td>
+                </tr>
+                <tr>
+                    <td><strong>Type</strong></td>
+                    <td>The category of the job — <code>ANALYSIS</code> for LLM processing steps, <code>OCR</code> for document text extraction.</td>
+                </tr>
+                <tr>
+                    <td><strong>Status</strong></td>
+                    <td><span style="color:#22c55e">completed</span>, <span style="color:#ef4444">failed</span>, <span style="color:#f59e0b">cancelled</span>, or <span style="color:#60a5fa">running</span>. Click to filter by status.</td>
+                </tr>
+                <tr>
+                    <td><strong>Document</strong></td>
+                    <td>The source document processed in this job. Blank for internal system sub-jobs.</td>
+                </tr>
+                <tr>
+                    <td><strong>Workspace</strong></td>
+                    <td>The workspace pipeline that triggered this job, including the full step sequence label.</td>
+                </tr>
+                <tr>
+                    <td><strong>Started</strong></td>
+                    <td>Timestamp of when the job was enqueued.</td>
+                </tr>
+                <tr>
+                    <td><strong>Duration</strong></td>
+                    <td>Total wall-clock time from start to finish. Useful for identifying slow LLM calls.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Filtering and Searching Jobs</h2>
+        <p>Use the toolbar controls to narrow down the job list:</p>
+        <ul>
+            <li><strong>Search bar:</strong> Filter by document name or job type (e.g. type "OCR" to view all OCR jobs).</li>
+            <li><strong>All Statuses dropdown:</strong> Filter to only see completed, failed, running, or cancelled jobs.</li>
+            <li><strong>All Types dropdown:</strong> Restrict to only ANALYSIS or OCR jobs.</li>
+            <li><strong>Refresh button:</strong> Manually refresh the list to see the latest job states.</li>
+        </ul>
+
+        <h2>Pagination</h2>
+        <p>The Activity Log paginates results in batches of 20. Use the <strong>Next</strong> / <strong>Previous</strong> buttons at the bottom of the table to navigate through the full history. The total job count is displayed in the top-right corner.</p>
+
+        <div class="callout info">
+            <i class="fas fa-tachometer-alt icon"></i>
+            <div>
+                <strong>Performance Monitoring:</strong> If you notice jobs consistently taking longer than expected, check the <strong>Duration</strong> column. Long analysis jobs may indicate a large document context window or a slow local LLM inference. Consider splitting large documents into smaller batches.
+            </div>
+        </div>
+
+        <div class="page-nav" id="page-navigation"></div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebar('activity-log');
+        });
+    </script>
+</body>
+</html>
